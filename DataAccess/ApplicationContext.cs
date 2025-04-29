@@ -5,13 +5,14 @@ namespace DataAccess;
 
 public class ApplicationContext : DbContext
 {
-    public ApplicationContext() 
+    public ApplicationContext()
     {
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=localhost;Database=blogDb;User Id=sa;Password=pasword;TrustServerCertificate=True");
+        // optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=blogDb;Trusted_Connection=True;TrustServerCertificate=True");
         //optionsBuilder.UseInMemoryDatabase("testDatabase");
     }
 
