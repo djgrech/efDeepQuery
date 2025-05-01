@@ -1,36 +1,28 @@
 ﻿using DataAccess;
 using DataDomain;
-using EfDeepQuery;
-using Microsoft.EntityFrameworkCore;
+
 
 var context = new ApplicationContext();
 
-var result1 = await Query<Blog>(context, "Posts.User.Name", "Posts.User.Name", new List<string>() { "joe" });
 
-var result2 = await Query<Blog>(context, "Posts.User.Name", "Name", new List<string>() { "blog1" });
+var dataService = new DataService();
 
-result2 = null;
-/*
-var query = context.Blogs.AsQueryable();
+var blogs1 = await dataService.Query<Blog>(context, "Posts.User.Name", "Posts.User.Name", ["joe"]);
 
-var result = context.Blogs
-    .Include(x => x.Posts)
-        .ThenInclude(x => x.User)
-    .WhereNavigationPropertyIn("Posts.User.Name", new List<string> { "joe", "mary" })
-    .FirstOrDefault();
+Print(blogs1);
 
-result = null;
-*/
+var blogs2 = await dataService.Query<Blog>(context, "Posts.User.Name", "Posts.User.Name", ["mary"]);
+Print(blogs2);
 
-Task<List<T>> Query<T>(DbContext context, string include, string queryStr, List<string> values)
-    where T : class
+void Print(List<Blog> blogs)
 {
-    var dbSet = context.Set<T>();
-    var query = dbSet.AsQueryable();
+    foreach (var r in blogs)
+    {
+        Console.WriteLine($"blog: {r.Name}");
+        foreach (var post in r.Posts)
+            Console.WriteLine($"Post {post.Title}, userId {post.UserId}, userName: {post.User.Name}");
+    }
 
-    int lastIndex = include.LastIndexOf('.');
-    query = query.Include(include.Substring(0, lastIndex)).WhereNavigationPropertyIn(queryStr, values);
-
-    return query.ToListAsync();
+    Console.WriteLine();
 }
 
