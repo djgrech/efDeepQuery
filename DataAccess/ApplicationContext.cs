@@ -11,9 +11,11 @@ public class ApplicationContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Server=localhost;Database=blogDb;User Id=sa;Password=pasword;TrustServerCertificate=True");
-        // optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=blogDb;Trusted_Connection=True;TrustServerCertificate=True");
-        //optionsBuilder.UseInMemoryDatabase("testDatabase");
+        optionsBuilder
+            //.UseInMemoryDatabase("testDatabase")
+            .UseSqlServer("Server=.\\SQLExpress;Database=blogDb;Trusted_Connection=True;TrustServerCertificate=True")
+            .UseLazyLoadingProxies() // may impact performance
+            ;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
