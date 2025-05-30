@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20250428204026_updated")]
-    partial class updated
+    [Migration("20250530165719_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,11 +20,14 @@ namespace DataAccess.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Blog", b =>
+            modelBuilder.Entity("DataDomain.Blog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,7 +56,77 @@ namespace DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Domain.Post", b =>
+            modelBuilder.Entity("DataDomain.Brand", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("OrganizationId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.ToTable("Brands");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "brand-1",
+                            Name = "brand-1",
+                            OrganizationId = "organization-1"
+                        },
+                        new
+                        {
+                            Id = "brand-2",
+                            Name = "brand-2",
+                            OrganizationId = "organization-1"
+                        },
+                        new
+                        {
+                            Id = "brand-3",
+                            Name = "brand-3",
+                            OrganizationId = "organization-2"
+                        });
+                });
+
+            modelBuilder.Entity("DataDomain.Organization", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Organizations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "organization-1",
+                            Name = "organization-1"
+                        },
+                        new
+                        {
+                            Id = "organization-2",
+                            Name = "organization-2"
+                        });
+                });
+
+            modelBuilder.Entity("DataDomain.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -103,7 +176,7 @@ namespace DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Domain.User", b =>
+            modelBuilder.Entity("DataDomain.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -132,15 +205,26 @@ namespace DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Domain.Post", b =>
+            modelBuilder.Entity("DataDomain.Brand", b =>
                 {
-                    b.HasOne("Domain.Blog", "Blog")
+                    b.HasOne("DataDomain.Organization", "Organization")
+                        .WithMany("Brands")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Organization");
+                });
+
+            modelBuilder.Entity("DataDomain.Post", b =>
+                {
+                    b.HasOne("DataDomain.Blog", "Blog")
                         .WithMany("Posts")
                         .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.User", "User")
+                    b.HasOne("DataDomain.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -151,9 +235,14 @@ namespace DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Blog", b =>
+            modelBuilder.Entity("DataDomain.Blog", b =>
                 {
                     b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("DataDomain.Organization", b =>
+                {
+                    b.Navigation("Brands");
                 });
 #pragma warning restore 612, 618
         }

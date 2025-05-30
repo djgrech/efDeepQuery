@@ -34,9 +34,21 @@ public class ApplicationContext : DbContext
         {
             b.HasData(DataSeeding.Users);
         });
+
+        modelBuilder.Entity<Brand>(b =>
+        {
+            b.HasData(DataSeeding.Brands);
+        });
+
+        modelBuilder.Entity<Organization>(b =>
+        {
+            b.HasData(DataSeeding.Organizations);
+        });
     }
 
     public DbSet<Blog> Blogs { get; set; }
     public DbSet<Post> Posts { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Brand> Brands { get; set; }
+    public DbSet<Organization> Organizations { get; set; }
 }

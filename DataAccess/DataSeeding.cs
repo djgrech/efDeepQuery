@@ -56,4 +56,41 @@ public static class DataSeeding
         Name= "mary",
     }
     ];
+
+
+    public static List<Brand> Brands =
+    [
+        new Brand()
+        {
+            Id = "brand-1",
+            Name = "brand-1",
+            OrganizationId = "organization-1"
+        },
+        new Brand()
+        {
+            Id = "brand-2",
+            Name = "brand-2",
+            OrganizationId = "organization-1"
+        },
+        new Brand()
+        {
+            Id = "brand-3",
+            Name = "brand-3",
+            OrganizationId = "organization-2"
+        }
+    ];
+
+    public static List<Organization> Organizations =
+    [
+        new Organization()
+        {
+            Id = "organization-1",
+            Name = "organization-1"
+        },
+        new Organization()
+        {
+            Id = "organization-2",
+            Name = "organization-2"
+        },
+    ];
 }
