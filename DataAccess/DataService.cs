@@ -4,13 +4,13 @@ namespace DataAccess;
 
 public interface IDataService
 {
-    Task<List<T>> Query<T>(DbContext context, string include, string queryStr, List<string> values)
+    Task<List<T>> Query<T>(DbContext context, string include, string queryStr, List<string> values, List<Sort>? sort = null)
         where T : class;
 }
 
 public class DataService : IDataService
 {
-    public Task<List<T>> Query<T>(DbContext context, string include, string queryStr, List<string> values)
+    public Task<List<T>> Query<T>(DbContext context, string include, string queryStr, List<string> values, List<Sort>? sort = null)
         where T : class
     {
         var dbSet = context.Set<T>();
@@ -18,7 +18,9 @@ public class DataService : IDataService
         var list = dbSet
             //.Include(include.Substring(0, lastIndex))
             .AsNoTracking() // not to use cached items - was returning inconsistent results
-            .WhereNavigationPropertyInWithTrimAsync(queryStr, values);
+            .WhereNavigationPropertyInWithTrimAsync(queryStr, values, sort)
+            ;
+
      
         return list;
     }
