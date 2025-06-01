@@ -10,12 +10,17 @@ var orders = context.Orders.ToList();
 var products = context.Products.ToList();
 var customers = context.Customers.ToList();
 
-var r1 = await dataService.Query<Customer>(context, "Orders", "Orders.Product.Name", ["mouse"], new List<Sort>()
+var r1 = await dataService.Query<Customer>(context, "Orders", "Orders.Product.Name", ["mou"], new List<Sort>()
 {
     new Sort()
     {
         Property = "FirstName",
         Direction = Direction.Descending
+    },
+    new Sort()
+    {
+        Property = "LastName",
+        Direction = Direction.Ascending
     }
 });
 

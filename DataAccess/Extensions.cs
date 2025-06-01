@@ -44,9 +44,8 @@ public static class QueryExtensions
 
         var filteredQuery = source.Where(lambda);
         if (!orderFields.IsNullOrEmpty())
-        {
             filteredQuery = filteredQuery.CreateOrderExpression(orderFields);
-        }
+
         var filtered = await filteredQuery.ToListAsync();
 
         // Trim matching collection elements from navigation property
@@ -89,10 +88,30 @@ public static class QueryExtensions
             }
         }
 
+        // partial string matching
+
+        Expression? predicate = null;
+
+        foreach (var value in allowedValues)
+        {
+            var searchValue = Expression.Constant(value);
+            var toStringCall = Expression.Call(current, "ToString", Type.EmptyTypes);
+
+            var containsMethod = typeof(string).GetMethod(nameof(string.Contains), new[] { typeof(string) })!;
+            var containsCall = Expression.Call(toStringCall, containsMethod, searchValue);
+
+            predicate = predicate == null
+                ? containsCall
+                : Expression.OrElse(predicate, containsCall);
+        }
+
+        return predicate!;
+
+        /*
         var valuesExpression = Expression.Constant(allowedValues);
         var containsMethod = typeof(List<string>).GetMethod(nameof(List<string>.Contains), new[] { typeof(string) });
 
-        return Expression.Call(valuesExpression, containsMethod, current);
+        return Expression.Call(valuesExpression, containsMethod, current);*/
     }
 
     private static bool IsEnumerableButNotString(Type type) =>
@@ -131,8 +150,17 @@ public static class QueryExtensions
                     if (current == null) break;
                 }
 
+                foreach(var value in allowedValues)
+                {
+                    if (current?.ToString().Contains(value) is true)
+                    {
+                        filteredList.Add(item);
+                        break;
+                    }
+                }
+                /*
                 if (allowedValues.Contains(current?.ToString()))
-                    filteredList.Add(item);
+                    filteredList.Add(item);*/
             }
 
             var filteredOrderFields = orderFields
