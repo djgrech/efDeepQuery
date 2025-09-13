@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFDeepQueryDynamicLinq", "EFDeepQueryDynamicLinq\EFDeepQueryDynamicLinq.csproj", "{ED83EC6B-3781-415B-9EE4-0696C1608C19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepQueryUnitTestDynamicLinq", "DeepQueryUnitTest1\DeepQueryUnitTestDynamicLinq.csproj", "{7F2A8BCC-5814-2D1E-2B42-04194E2F21D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepQueryUnitTestDynamicLinq", "DeepQueryUnitTestDynamicLinq\DeepQueryUnitTestDynamicLinq.csproj", "{7F2A8BCC-5814-2D1E-2B42-04194E2F21D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
