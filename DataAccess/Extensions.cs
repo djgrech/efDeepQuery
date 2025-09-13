@@ -150,7 +150,7 @@ public static class QueryExtensions
                     if (current == null) break;
                 }
 
-                foreach(var value in allowedValues)
+                foreach (var value in allowedValues)
                 {
                     if (current?.ToString().Contains(value) is true)
                     {

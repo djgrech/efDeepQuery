@@ -21,7 +21,7 @@ public class DataService : IDataService
             .WhereNavigationPropertyInWithTrimAsync(queryStr, values, sort)
             ;
 
-     
+
         return list;
     }
 }

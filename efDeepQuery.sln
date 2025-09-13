@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfDeepQuery", "EfDeepQuery\EfDeepQuery.csproj", "{5812A93B-0253-47C7-B8DE-DFAAD781FB32}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataDomain", "DataDomain\DataDomain.csproj", "{ED8AEA4A-CEB0-4FD3-A3DF-E90B0FF71904}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{F9ED9531-E6B8-40E2-AB03-D3E779315410}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepQueryUnitTest", "DeepQueryUnitTest\DeepQueryUnitTest.csproj", "{6883C52A-7304-9458-F350-8B20137656AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFDeepQueryDynamicLinq", "EFDeepQueryDynamicLinq\EFDeepQueryDynamicLinq.csproj", "{ED83EC6B-3781-415B-9EE4-0696C1608C19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepQueryUnitTestDynamicLinq", "DeepQueryUnitTest1\DeepQueryUnitTestDynamicLinq.csproj", "{7F2A8BCC-5814-2D1E-2B42-04194E2F21D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5812A93B-0253-47C7-B8DE-DFAAD781FB32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5812A93B-0253-47C7-B8DE-DFAAD781FB32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5812A93B-0253-47C7-B8DE-DFAAD781FB32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5812A93B-0253-47C7-B8DE-DFAAD781FB32}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ED8AEA4A-CEB0-4FD3-A3DF-E90B0FF71904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ED8AEA4A-CEB0-4FD3-A3DF-E90B0FF71904}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED8AEA4A-CEB0-4FD3-A3DF-E90B0FF71904}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -29,10 +25,14 @@ Global
 		{F9ED9531-E6B8-40E2-AB03-D3E779315410}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9ED9531-E6B8-40E2-AB03-D3E779315410}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9ED9531-E6B8-40E2-AB03-D3E779315410}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6883C52A-7304-9458-F350-8B20137656AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6883C52A-7304-9458-F350-8B20137656AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6883C52A-7304-9458-F350-8B20137656AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6883C52A-7304-9458-F350-8B20137656AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED83EC6B-3781-415B-9EE4-0696C1608C19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED83EC6B-3781-415B-9EE4-0696C1608C19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED83EC6B-3781-415B-9EE4-0696C1608C19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED83EC6B-3781-415B-9EE4-0696C1608C19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F2A8BCC-5814-2D1E-2B42-04194E2F21D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F2A8BCC-5814-2D1E-2B42-04194E2F21D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F2A8BCC-5814-2D1E-2B42-04194E2F21D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F2A8BCC-5814-2D1E-2B42-04194E2F21D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

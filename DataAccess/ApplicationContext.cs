@@ -1,4 +1,5 @@
 ﻿using DataDomain;
+using DataDomain.Order;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess;
@@ -9,13 +10,20 @@ public class ApplicationContext : DbContext
     {
     }
 
+    public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
+    {
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder
-            //.UseInMemoryDatabase("testDatabase")
-            .UseSqlServer("Server=.\\SQLExpress;Database=blogDb;Trusted_Connection=True;TrustServerCertificate=True")
-            .UseLazyLoadingProxies() // may impact performance
-            ;
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder
+                //.UseInMemoryDatabase("testDatabase")
+                .UseSqlServer("Server=.\\SQLExpress;Database=blogDb;Trusted_Connection=True;TrustServerCertificate=True")
+                .UseLazyLoadingProxies() // may impact performance
+                ;
+        }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -81,8 +89,8 @@ public class ApplicationContext : DbContext
     public DbSet<Brand> Brands { get; set; }
     public DbSet<Organization> Organizations { get; set; }
 
-    public DbSet<Product> Products { get; set; }
-    public DbSet<Order> Orders { get; set; }
-    public DbSet<Customer> Customers { get; set; }
-    
+    public virtual DbSet<Product> Products { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<Customer> Customers { get; set; }
+
 }
