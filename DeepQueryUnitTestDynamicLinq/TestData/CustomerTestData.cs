@@ -3,17 +3,17 @@ using EFDeepQueryDynamicLinq;
 
 namespace DeepQueryUnitTestDynamicLinq.TestData;
 
-public class CustomerTestData : TheoryData<FilterInput, List<ExpectedData>>
+public class CustomerTestData : TheoryData<IFilterComponent, List<ExpectedData>>
 {
     public CustomerTestData()
     {
-        Add(new FilterInput
+        Add(new FilterGroup
         {
-            Block =
+            Operator = LogicalOperator.And,
+            Components =
             [
-                new FilterOperatorInput()
-                .Add<Customer>(x => x.FirstName, x => x.Items = ["Joe"])
-                .Add<Customer>(x => x.LastName, x => x.Items = ["Borg"]),
+                FilterCondition.Create<Customer>(x => x.FirstName,["Joe"]),
+                FilterCondition.Create<Customer>(x => x.LastName,["Borg"]),
             ]
         },
         [
@@ -53,17 +53,29 @@ public class CustomerTestData : TheoryData<FilterInput, List<ExpectedData>>
             }
         ]);
 
-        Add(new FilterInput
+        Add(new FilterGroup
         {
-            Block =
+            Operator = LogicalOperator.Or,
+            Components =
             [
-                new FilterOperatorInput()
-                .Add<Customer>(x => x.FirstName, x => x.Items = ["Joe"])
-                .Add<Customer>(x => x.LastName, x => x.Items = ["Borg"]),
-
-                new FilterOperatorInput()
-                .Add<Customer>(x => x.FirstName, x => x.Items = ["Mary"])
-                .Add<Customer>(x => x.LastName, x => x.Items = ["Smith"]),
+                new FilterGroup
+                {
+                    Operator = LogicalOperator.And,
+                    Components =
+                    [
+                        FilterCondition.Create<Customer>(x => x.FirstName,["Joe"]),
+                        FilterCondition.Create<Customer>(x => x.LastName,["Borg"]),
+                    ]
+                },
+                new FilterGroup
+                {
+                    Operator = LogicalOperator.And,
+                    Components =
+                    [
+                        FilterCondition.Create<Customer>(x => x.FirstName,["Mary"]),
+                        FilterCondition.Create<Customer>(x => x.LastName,["Smith"]),
+                    ]
+                },
             ]
         },
         [
@@ -126,12 +138,12 @@ public class CustomerTestData : TheoryData<FilterInput, List<ExpectedData>>
             }
             ]);
 
-        Add(new FilterInput
+        Add(new FilterGroup
         {
-            Block =
+            Operator = LogicalOperator.And,
+            Components =
             [
-                new FilterOperatorInput()
-                .Add<Customer>(x => x.Orders.Count, x => x.Items = [1])
+                FilterCondition.Create<Customer>(x => x.Orders.Count,[1])
             ]
         },
         [
@@ -157,15 +169,38 @@ public class CustomerTestData : TheoryData<FilterInput, List<ExpectedData>>
                     FirstName = "Mary",
                     LastName = "Smith"
                 }
+            },
+            new ExpectedData()
+            {
+                Orders =
+                [
+                    new Order()
+                    {
+                        Id = 4,
+                        OrderDate = new DateTime(2025, 3, 1),
+                        CustomerId = 3,
+                        Product = new Product()
+                        {
+                            Id = 3,
+                            Name = "monitor"
+                        },
+                    }
+                ],
+                Customer = new Customer()
+                {
+                    Id = 3,
+                    FirstName = "Mary",
+                    LastName = "Black"
+                }
             }
         ]);
 
-        Add(new FilterInput
+        Add(new FilterGroup
         {
-            Block =
+            Operator = LogicalOperator.And,
+            Components =
             [
-                new FilterOperatorInput()
-                .Add<Customer>(x => x.Orders.Count, x => x.Items = [1], SearchOperator.GreaterThan)
+                FilterCondition.Create<Customer>(x => x.Orders.Count,[1], SearchOperator.GreaterThan)
             ]
         },
         [
@@ -205,12 +240,12 @@ public class CustomerTestData : TheoryData<FilterInput, List<ExpectedData>>
             }
         ]);
 
-        Add(new FilterInput
+        Add(new FilterGroup
         {
-            Block =
+            Operator = LogicalOperator.And,
+            Components =
             [
-                new FilterOperatorInput()
-                .Add<Customer>(x => x.Orders.Count, x => x.Items = [1], SearchOperator.GreaterThanOrEquals)
+                FilterCondition.Create<Customer>(x => x.Orders.Count,[1], SearchOperator.GreaterThanOrEquals)
             ]
         },
         [
@@ -269,6 +304,29 @@ public class CustomerTestData : TheoryData<FilterInput, List<ExpectedData>>
                     Id = 2,
                     FirstName = "Mary",
                     LastName = "Smith"
+                }
+            },
+            new ExpectedData()
+            {
+                Orders =
+                [
+                    new Order()
+                    {
+                        Id = 4,
+                        OrderDate = new DateTime(2025, 3, 1),
+                        CustomerId = 3,
+                        Product = new Product()
+                        {
+                            Id = 3,
+                            Name = "monitor"
+                        },
+                    }
+                ],
+                Customer = new Customer()
+                {
+                    Id = 3,
+                    FirstName = "Mary",
+                    LastName = "Black"
                 }
             }
             ]

@@ -2,21 +2,47 @@
 using DataDomain.Order;
 using EFDeepQueryDynamicLinq;
 
-var filterInput = new FilterInput
+var filter = new FilterGroup
 {
-    Block =
-    [
-        new FilterOperatorInput()
-            .Add<Order>(x => x.Product.Name, x => x.Items = ["mou", "key"], SearchOperator.Contains)
-            .Add<Order>(x => x.OrderDate, x => x.Items = ["2024-02-15T00:00:00Z"], SearchOperator.GreaterThan)
-            .Add<Order>(x => x.OrderDate, x => x.Items = ["2025-03-15T00:00:00Z"], SearchOperator.LessThan)
-            .Add<Order>(x => x.Customer.FirstName, x => x.Items = ["Mary"])
-            .Add<Order>(x => x.Customer.LastName, x => x.Items = ["Smith"]),
-
-        new FilterOperatorInput()
-            .Add<Order>(x => x.Id, x => x.Items = [1,3])
-            .Add<Order>(x=>x.Customer.FirstName, x=>x.Items = ["Jo"], SearchOperator.Contains)
-    ]
+    Operator = LogicalOperator.And,
+    Components =
+    {
+        new FilterGroup
+        {
+            Operator = LogicalOperator.And,
+            Components =
+            {
+                FilterCondition.Create<Order>(x => x.Product.Name, ["mouse", "monitor"]),
+                FilterCondition.Create<Order>(x => x.OrderDate,  ["2024-02-15T00:00:00Z"], SearchOperator.GreaterThan),
+                FilterCondition.Create<Order>(x => x.OrderDate,  ["2025-03-15T00:00:00Z"], SearchOperator.LessThan)
+            }
+        },
+        new FilterGroup
+        {
+            Operator = LogicalOperator.Or,
+            Components =
+                {
+                    new FilterGroup
+                    {
+                        Operator = LogicalOperator.And,
+                        Components =
+                        {
+                            FilterCondition.Create<Order>(x => x.Customer.FirstName, ["Mary"]),
+                            FilterCondition.Create<Order>(x => x.Customer.LastName, ["Smith"])
+                        }
+                    },
+                    new FilterGroup
+                    {
+                        Operator = LogicalOperator.And,
+                        Components =
+                        {
+                            FilterCondition.Create<Order>(x => x.Customer.FirstName, ["Mary"]),
+                            FilterCondition.Create<Order>(x => x.Customer.LastName, ["Black"])
+                        }
+                    }
+                }
+        }
+    }
 };
 
 var sortInput = new SortInput
@@ -30,8 +56,10 @@ var context = new ApplicationContext();
 var efFilterTranslator = new EFFilterTranslator();
 var query = context.Set<Order>().AsQueryable();
 
-query = efFilterTranslator.Build(query, filterInput, sortInput);
+query = efFilterTranslator.BuildQuery(query, filter, sortInput);
 
 var result = query.ToList();
+
+result = null;
 
 result = null;

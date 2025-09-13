@@ -140,6 +140,13 @@ public static class DataSeeding
             CustomerId = 2,
             OrderDate = new DateTime(2025,3,1),
             ProductId = 2
+        },
+        new Order()
+        {
+            Id = 4,
+            CustomerId = 3,
+            OrderDate = new DateTime(2025,3,1),
+            ProductId = 3
         }
     ];
 
@@ -156,6 +163,18 @@ public static class DataSeeding
             Id = 2,
             FirstName = "Mary",
             LastName = "Smith"
+        },
+        new Customer()
+        {
+            Id = 3,
+            FirstName = "Mary",
+            LastName = "Black"
+        },
+        new Customer()
+        {
+            Id = 4,
+            FirstName = "Peter",
+            LastName = "Jones"
         }
     ];
 }

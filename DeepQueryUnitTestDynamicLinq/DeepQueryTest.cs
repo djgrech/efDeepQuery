@@ -10,13 +10,13 @@ namespace DeepQueryUnitTestDynamicLinq;
 public class DeepQueryTest
 {
     [Theory, ClassData(typeof(OrderTestData))]
-    public void Test_Query_By_Order(FilterInput filterInput, List<ExpectedData> expectedData)
+    public void Test_Query_By_Order(IFilterComponent filterInput, SortInput? sortInput, List<ExpectedData> expectedData)
     {
         var filterTranslator = new EFFilterTranslator();
 
         var context = GetContext();
         var query = context.Set<Order>().AsQueryable();
-        query = filterTranslator.Build(query, filterInput);
+        query = filterTranslator.BuildQuery(query, filterInput, sortInput);
 
         var result = query.ToList();
 
@@ -26,13 +26,13 @@ public class DeepQueryTest
     }
 
     [Theory, ClassData(typeof(CustomerTestData))]
-    public void Test_Query_By_Customer(FilterInput filterInput, List<ExpectedData> expectedData)
+    public void Test_Query_By_Customer(IFilterComponent filterInput, List<ExpectedData> expectedData)
     {
         var filterTranslator = new EFFilterTranslator();
 
         var context = GetContext();
         var query = context.Set<Customer>().AsQueryable();
-        query = filterTranslator.Build(query, filterInput);
+        query = filterTranslator.BuildQuery(query, filterInput);
 
         var result = query.ToList();
 
@@ -42,13 +42,13 @@ public class DeepQueryTest
     }
 
     [Theory, ClassData(typeof(ProductTestData))]
-    public void Test_Query_By_Product(FilterInput filterInput, SortInput? sortInput, List<ExpectedData> expectedData)
+    public void Test_Query_By_Product(IFilterComponent filterInput, SortInput? sortInput, List<ExpectedData> expectedData)
     {
         var filterTranslator = new EFFilterTranslator();
 
         var context = GetContext();
         var query = context.Set<Product>().AsQueryable();
-        query = filterTranslator.Build(query, filterInput, sortInput);
+        query = filterTranslator.BuildQuery(query, filterInput, sortInput);
 
         var result = query.ToList();
 

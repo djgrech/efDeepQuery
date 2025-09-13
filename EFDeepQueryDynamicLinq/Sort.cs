@@ -1,17 +1,25 @@
-﻿namespace EFDeepQueryDynamicLinq
-{
-    public class SortInput : List<KeyValuePair<string, SortDirection>>
-    {
-        public SortInput Add(string key, SortDirection direction = SortDirection.Asc)
-        {
-            Add(new KeyValuePair<string, SortDirection>(key, direction));
-            return this;
-        }
-    }
+﻿using System.Linq.Expressions;
 
-    public enum SortDirection
+namespace EFDeepQueryDynamicLinq;
+
+public class SortInput : List<KeyValuePair<string, SortDirection>>
+{
+    public SortInput Add(string key, SortDirection direction = SortDirection.Asc)
     {
-        Asc,
-        Desc
+        Add(new KeyValuePair<string, SortDirection>(key, direction));
+        return this;
     }
+}
+
+public enum SortDirection
+{
+    Asc,
+    Desc
+}
+
+
+public static class SortInputExtensions
+{
+    public static SortInput Add<T>(this SortInput sortInput, Expression<Func<T, object>> prop, SortDirection direction = SortDirection.Asc)
+    => sortInput.Add(prop.GetPropertyName(), direction);
 }

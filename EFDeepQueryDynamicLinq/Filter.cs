@@ -1,19 +1,37 @@
-﻿using EFDeepQueryDynamicLinq;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace EFDeepQueryDynamicLinq;
-public class FilterInput
+
+public enum LogicalOperator
 {
-    public List<FilterOperatorInput> Block { get; set; } = [];
+    And,
+    Or
 }
 
-public class FilterOperatorInput : List<KeyValuePair<string, FilterOperator>>
+public interface IFilterComponent;
+
+public class FilterGroup : IFilterComponent
 {
-    public FilterOperatorInput Add(string key, FilterOperator item)
-    {
-        Add(new KeyValuePair<string, FilterOperator>(key, item));
-        return this;
-    }
+    public LogicalOperator Operator { get; set; } = LogicalOperator.And;
+    public List<IFilterComponent> Components { get; set; } = [];
+}
+
+
+public class FilterCondition : IFilterComponent
+{
+    public string Field { get; set; }
+    public FilterOperator Operator { get; set; }
+
+    public static FilterCondition Create<T>(Expression<Func<T, object>> prop, List<object> items, SearchOperator searchOperator = SearchOperator.Equals)
+        => new()
+        {
+            Field = prop.GetPropertyName(),
+            Operator = new FilterOperator()
+            {
+                Items = items,
+                SearchOperator = searchOperator
+            }
+        };
 }
 
 public class FilterOperator
@@ -30,27 +48,4 @@ public enum SearchOperator
     GreaterThanOrEquals,
     LessThan,
     LessThanOrEquals
-}
-
-public static class FilterOperatorExtensions
-{
-
-    public static FilterOperatorInput Add<T>(this FilterOperatorInput filterOperatorInput, Expression<Func<T, object>> key, FilterOperator item)
-    {
-        filterOperatorInput.Add(new KeyValuePair<string, FilterOperator>(key.GetPropertyName(), item));
-        return filterOperatorInput;
-    }
-
-    public static FilterOperatorInput Add<T>(this FilterOperatorInput filterOperatorInput, Expression<Func<T, object>> key, Action<FilterOperator> filterOperatorAction, SearchOperator searchOperator = SearchOperator.Equals)
-    {
-        var filterOperator = new FilterOperator()
-        {
-            SearchOperator = searchOperator
-        };
-        filterOperatorAction(filterOperator);
-
-        filterOperatorInput.Add(new KeyValuePair<string, FilterOperator>(key.GetPropertyName(), filterOperator));
-        return filterOperatorInput;
-    }
-
 }

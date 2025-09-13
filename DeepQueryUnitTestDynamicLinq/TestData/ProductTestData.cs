@@ -3,16 +3,16 @@ using EFDeepQueryDynamicLinq;
 
 namespace DeepQueryUnitTestDynamicLinq.TestData;
 
-public class ProductTestData : TheoryData<FilterInput, SortInput?, List<ExpectedData>>
+public class ProductTestData : TheoryData<IFilterComponent, SortInput?, List<ExpectedData>>
 {
     public ProductTestData()
     {
-        Add(new FilterInput
+        Add(new FilterGroup
         {
-            Block =
+            Operator = LogicalOperator.And,
+            Components =
             [
-                new FilterOperatorInput()
-                .Add<Product>(x => x.Name, x => x.Items = ["keyboard"])
+                FilterCondition.Create<Product>(x => x.Name, ["keyboard"])
             ]
         },
         null,
@@ -41,12 +41,12 @@ public class ProductTestData : TheoryData<FilterInput, SortInput?, List<Expected
             }
         ]);
 
-        Add(new FilterInput
+        Add(new FilterGroup
         {
-            Block =
+            Operator = LogicalOperator.And,
+            Components =
             [
-                new FilterOperatorInput()
-                .Add<Product>(x => x.Name, x => x.Items = ["mouse"])
+                FilterCondition.Create<Product>(x => x.Name, ["mouse"])
             ]
         },
         null,
@@ -87,15 +87,15 @@ public class ProductTestData : TheoryData<FilterInput, SortInput?, List<Expected
             }
         ]);
 
-        Add(new FilterInput
+        Add(new FilterGroup
         {
-            Block =
+            Operator = LogicalOperator.And,
+            Components =
             [
-                new FilterOperatorInput()
-                .Add<Product>(x => x.Name, x => x.Items = ["mouse", "keyboard"])
+                FilterCondition.Create<Product>(x => x.Name, ["mouse", "keyboard"])
             ]
         },
-        new SortInput().Add("Name", SortDirection.Desc),
+        new SortInput().Add<Product>(x => x.Name, SortDirection.Desc),
         [
             new ExpectedData()
             {
@@ -155,12 +155,12 @@ public class ProductTestData : TheoryData<FilterInput, SortInput?, List<Expected
             }
         ]);
 
-        Add(new FilterInput
+        Add(new FilterGroup
         {
-            Block =
+            Operator = LogicalOperator.And,
+            Components =
             [
-                new FilterOperatorInput()
-                .Add<Product>(x => x.Name, x => x.Items = ["mouse", "keyboard"])
+                FilterCondition.Create<Product>(x => x.Name, ["mouse", "keyboard"])
             ]
         },
         new SortInput().Add("Name"),

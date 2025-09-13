@@ -1,4 +1,5 @@
-﻿using System.Linq.Dynamic.Core;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 using System.Text;
 
 namespace EFDeepQueryDynamicLinq;
@@ -6,7 +7,7 @@ namespace EFDeepQueryDynamicLinq;
 public class EFFilterTranslator
 {
     private const string And = "AND";
-    private const string Or = "Or";
+    private const string Or = "OR";
     private const char OpenBrace = '(';
     private const char CloseBrace = ')';
 
@@ -25,34 +26,100 @@ public class EFFilterTranslator
         [SearchOperator.GreaterThan] = ">",
     };
 
-    public IQueryable<TEntity> Build<TEntity>(IQueryable<TEntity> query, FilterInput filterInput, SortInput? sortInput = null)
-                where TEntity : class
+    private readonly Dictionary<LogicalOperator, string> logicalOperatorMap = new()
+    {
+        [LogicalOperator.Or] = Or,
+        [LogicalOperator.And] = And,
+    };
+
+    public IQueryable<TEntity> BuildQuery<TEntity>(IQueryable<TEntity> query, IFilterComponent component, SortInput? sortInput = null)
+            where TEntity : class
     {
         var f = new FilterMetaData();
-        var init = true;
+        var queryStr = BuildQuery(component, f);
 
-        var filterList = new List<string>();
-        var sb = new StringBuilder();
+        foreach (var entity in f.ProcessedEntities)
+            query = query.Include(entity);
 
-        foreach (var block in filterInput.Block)
-        {
-            if (!init)
-                sb.Append($" {Or} {OpenBrace}");
-            else
-            {
-                init = false;
-                sb.Append(OpenBrace);
-            }
+        query = query.Where(queryStr, [.. f.Items]);
 
-            sb.Append(BuildFilterOperatorString(f, block, And));
-            sb.Append(CloseBrace);
-        }
-
-        query = query.Where(sb.ToString(), [.. f.Items]);
         if (!sortInput.IsNullOrEmpty())
             query = BuildOrderBy(query, sortInput!);
 
         return query;
+    }
+
+    private string BuildQuery(IFilterComponent component, FilterMetaData filterMetaData)
+    {
+        if (component is FilterCondition condition)
+            return BuildCondition(condition, filterMetaData);
+
+        if (component is FilterGroup group)
+        {
+            var subQueries = group
+                .Components
+                .Select(x => BuildQuery(x, filterMetaData))
+                .Where(q => !q.IsNullOrEmpty())
+                .ToList();
+
+            if (subQueries.IsNullOrEmpty())
+                return string.Empty;
+
+            var joined = string.Join($" {logicalOperatorMap[group.Operator]} ", subQueries);
+
+            return $"({joined})";
+        }
+
+        return string.Empty;
+    }
+
+    private string BuildCondition(FilterCondition condition, FilterMetaData metaData)
+    {
+        var field = condition.Field;
+        var items = condition.Operator.Items;
+        var op = condition.Operator.SearchOperator;
+
+        if (items.IsNullOrEmpty())
+            return string.Empty;
+
+        var lastIndex = field.LastIndexOf('.');
+
+        if (lastIndex != -1)
+        {
+            var entity = field[..lastIndex];
+            metaData.ProcessedEntities.Add(entity);
+        }
+
+        var index = metaData.Index;
+
+        var s = SubQuery(field, items, op, ref index, metaData.Items);
+        metaData.Index = index;
+
+        return s;
+    }
+
+    private string SubQuery(string key, List<object> items, SearchOperator searchOperator, ref int index, List<object> allItems)
+    {
+        var sb = new StringBuilder();
+        if (items.Count > 0)
+            sb.Append(OpenBrace);
+
+        for (var i = 0; i < items.Count; i++)
+        {
+            if (i != 0)
+                sb.Append($" {Or} ");
+
+            if (searchOperator != SearchOperator.Contains)
+                sb.Append($"{key} {operatorMap[searchOperator]} @{index++}");
+            else
+                sb.Append($"{key}.CONTAINS(@{index++})");
+        }
+
+        if (items.Count > 0)
+            sb.Append(CloseBrace);
+
+        allItems.AddRange(items);
+        return sb.ToString();
     }
 
     private IQueryable<TEntity> BuildOrderBy<TEntity>(IQueryable<TEntity> query, SortInput sortInput)
@@ -69,64 +136,6 @@ public class EFFilterTranslator
         }
 
         return query.OrderBy(sb.ToString());
-    }
-
-    private string BuildFilterOperatorString(
-        FilterMetaData metaData,
-        FilterOperatorInput filterOperatorInput,
-        string filterType
-    )
-    {
-        var sb = new StringBuilder();
-        var first = true;
-        var index = metaData.Index;
-
-        foreach (var filterOperator in filterOperatorInput)
-        {
-            var key = filterOperator.Key;
-            var lastIndex = key.LastIndexOf('.');
-
-            if (lastIndex != -1)
-            {
-                var entity = key[..lastIndex];
-                metaData.ProcessedEntities.Add(entity);
-            }
-
-            if (!first)
-                sb.Append($" {filterType} ");
-
-            first = false;
-
-            sb.Append(SubQuery(key, filterOperator.Value, ref index, metaData.Items));
-        }
-
-        metaData.Index = index;
-
-        return sb.ToString();
-    }
-
-    private string SubQuery(string key, FilterOperator filterItem, ref int index, List<object> items)
-    {
-        var sb = new StringBuilder();
-        if (filterItem.Items.Count > 0)
-            sb.Append(OpenBrace);
-
-        for (var i = 0; i < filterItem.Items.Count; i++)
-        {
-            if (i != 0)
-                sb.Append($" {Or} ");
-
-            if (filterItem.SearchOperator != SearchOperator.Contains)
-                sb.Append($"{key} {operatorMap[filterItem.SearchOperator]} @{index++}");
-            else
-                sb.Append($"{key}.CONTAINS(@{index++})");
-        }
-
-        if (filterItem.Items.Count > 0)
-            sb.Append(CloseBrace);
-
-        items.AddRange(filterItem.Items);
-        return sb.ToString();
     }
 }
 

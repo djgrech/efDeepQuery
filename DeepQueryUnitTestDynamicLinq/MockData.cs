@@ -4,9 +4,9 @@ namespace DeepQueryUnitTestDynamicLinq;
 
 public static class MockData
 {
-   public static List<Product> Products =
-   [
-       new Product()
+    public static List<Product> Products =
+    [
+        new Product()
         {
             Id = 1,
             Name = "keyboard",
@@ -21,7 +21,7 @@ public static class MockData
             Id = 3,
             Name = "monitor"
         }
-   ];
+    ];
 
     public static List<Order> Orders =
     [
@@ -45,6 +45,13 @@ public static class MockData
             CustomerId = 2,
             OrderDate = new DateTime(2025,3,1),
             ProductId = 2
+        },
+        new Order()
+        {
+            Id = 4,
+            CustomerId = 3,
+            OrderDate = new DateTime(2025,3,1),
+            ProductId = 3
         }
     ];
 
@@ -61,6 +68,12 @@ public static class MockData
             Id = 2,
             FirstName = "Mary",
             LastName = "Smith"
+        },
+        new Customer()
+        {
+            Id = 3,
+            FirstName = "Mary",
+            LastName = "Black"
         }
     ];
 }
