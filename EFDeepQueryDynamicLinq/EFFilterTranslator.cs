@@ -111,10 +111,10 @@ public class EFFilterTranslator
         if (filterItem.Items.Count > 0)
             sb.Append(OpenBrace);
 
-        for (int i = 0; i < filterItem.Items.Count; i++)
+        for (var i = 0; i < filterItem.Items.Count; i++)
         {
             if (i != 0)
-                sb.Append(" OR ");
+                sb.Append($" {Or} ");
 
             if (filterItem.SearchOperator != SearchOperator.Contains)
                 sb.Append($"{key} {operatorMap[filterItem.SearchOperator]} @{index++}");
