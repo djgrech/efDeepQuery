@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFDeepQueryDynamicLinq", "E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepQueryUnitTestDynamicLinq", "DeepQueryUnitTestDynamicLinq\DeepQueryUnitTestDynamicLinq.csproj", "{7F2A8BCC-5814-2D1E-2B42-04194E2F21D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{CD4CC169-D734-4B5A-BC28-23796644A5AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{7F2A8BCC-5814-2D1E-2B42-04194E2F21D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F2A8BCC-5814-2D1E-2B42-04194E2F21D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F2A8BCC-5814-2D1E-2B42-04194E2F21D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD4CC169-D734-4B5A-BC28-23796644A5AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD4CC169-D734-4B5A-BC28-23796644A5AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD4CC169-D734-4B5A-BC28-23796644A5AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD4CC169-D734-4B5A-BC28-23796644A5AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,70 @@
+using DataAccess;
+using EFDeepQueryDynamicLinq;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers().AddJsonOptions(x =>
+{
+    x.JsonSerializerOptions.Converters.Add(new FilterComponentConverter());
+    x.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<ApplicationContext>(c => c.UseSqlServer("Server=.\\SQLExpress;Database=blogDb;Trusted_Connection=True;TrustServerCertificate=True"));
+
+builder.Services.AddSingleton<IEFFilterTranslator, EFFilterTranslator>();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+
+
+public class FilterComponentConverter : JsonConverter<IFilterComponent>
+{
+    public override IFilterComponent Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        using var doc = JsonDocument.ParseValue(ref reader);
+        var root = doc.RootElement;
+
+        // Heuristic: if it has "Components", treat as FilterGroup
+        if (root.TryGetProperty("Components", out _))
+        {
+            return JsonSerializer.Deserialize<FilterGroup>(root.GetRawText(), options);
+        }
+
+        // Heuristic: if it has "Field", treat as FilterCondition
+        if (root.TryGetProperty("Field", out _))
+        {
+            return JsonSerializer.Deserialize<FilterCondition>(root.GetRawText(), options);
+        }
+
+        throw new JsonException("Unknown IFilterComponent type");
+    }
+
+    public override void Write(Utf8JsonWriter writer, IFilterComponent value, JsonSerializerOptions options)
+    {
+        JsonSerializer.Serialize(writer, (object)value, value.GetType(), options);
+    }
+}

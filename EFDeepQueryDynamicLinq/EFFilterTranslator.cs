@@ -1,10 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using System.Text;
+using System.Text.Json;
 
 namespace EFDeepQueryDynamicLinq;
 
-public class EFFilterTranslator
+public interface IEFFilterTranslator
+{
+    IQueryable<TEntity> BuildQuery<TEntity>(IQueryable<TEntity> query, IFilterComponent component, SortInput? sortInput = null)
+            where TEntity : class;
+}
+
+public class EFFilterTranslator : IEFFilterTranslator
 {
     private const string And = "AND";
     private const string Or = "OR";
@@ -41,7 +48,37 @@ public class EFFilterTranslator
         foreach (var entity in f.ProcessedEntities)
             query = query.Include(entity);
 
-        query = query.Where(queryStr, [.. f.Items]);
+        var parsedItems = f.Items.Select(item =>
+        {
+            if (item is JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == JsonValueKind.String)
+                {
+                    var s = jsonElement.GetString(); ;
+                    if (DateTime.TryParse(s, out var date))
+                        return date.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+                    return s;
+                }
+
+
+                if (jsonElement.ValueKind == JsonValueKind.Number && jsonElement.TryGetInt32(out var intVal))
+                    return intVal;
+
+                if (jsonElement.ValueKind == JsonValueKind.Number && jsonElement.TryGetDouble(out var doubleVal))
+                    return doubleVal;
+
+                if (jsonElement.ValueKind == JsonValueKind.True || jsonElement.ValueKind == JsonValueKind.False)
+                    return jsonElement.GetBoolean();
+
+                // fallback
+                return jsonElement.ToString();
+            }
+
+            return item;
+        }).ToList();
+
+        query = query.Where(queryStr, [.. parsedItems]);
 
         if (!sortInput.IsNullOrEmpty())
             query = BuildOrderBy(query, sortInput!);
@@ -49,6 +86,34 @@ public class EFFilterTranslator
         return query;
     }
 
+    private string BuildQuery(IFilterComponent component, FilterMetaData filterMetaData)
+    {
+        if (component is FilterCondition condition)
+            return BuildCondition(condition, filterMetaData);
+
+        if (component is FilterGroup group)
+        {
+            var filters = new List<string>();
+
+            foreach (var g in group.Components)
+            {
+                var s = BuildQuery(g, filterMetaData);
+                if (!s.IsNullOrEmpty())
+                    filters.Add(s);
+            }
+
+            if (filters.IsNullOrEmpty())
+                return string.Empty;
+
+            var joined = string.Join($" {group.Operator} ", filters.ToArray());
+
+            return $"({joined})";
+        }
+
+        return string.Empty;
+    }
+
+    /*
     private string BuildQuery(IFilterComponent component, FilterMetaData filterMetaData)
     {
         if (component is FilterCondition condition)
@@ -72,7 +137,7 @@ public class EFFilterTranslator
 
         return string.Empty;
     }
-
+    */
     private string BuildCondition(FilterCondition condition, FilterMetaData metaData)
     {
         var field = condition.Field;
