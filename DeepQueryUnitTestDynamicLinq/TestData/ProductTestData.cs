@@ -3,14 +3,14 @@ using EFDeepQueryDynamicLinq;
 
 namespace DeepQueryUnitTestDynamicLinq.TestData;
 
-public class ProductTestData : TheoryData<IFilterComponent, SortInput?, List<ExpectedData>>
+public class ProductTestData1 : TheoryData<FilterGroup, SortInput?, List<ExpectedData>>
 {
-    public ProductTestData()
+    public ProductTestData1()
     {
         Add(new FilterGroup
         {
             Operator = LogicalOperator.And,
-            Components =
+            Conditions =
             [
                 FilterCondition.Create<Product>(x => x.Name, ["keyboard"])
             ]
@@ -44,7 +44,7 @@ public class ProductTestData : TheoryData<IFilterComponent, SortInput?, List<Exp
         Add(new FilterGroup
         {
             Operator = LogicalOperator.And,
-            Components =
+            Conditions =
             [
                 FilterCondition.Create<Product>(x => x.Name, ["mouse"])
             ]
@@ -90,7 +90,7 @@ public class ProductTestData : TheoryData<IFilterComponent, SortInput?, List<Exp
         Add(new FilterGroup
         {
             Operator = LogicalOperator.And,
-            Components =
+            Conditions =
             [
                 FilterCondition.Create<Product>(x => x.Name, ["mouse", "keyboard"])
             ]
@@ -158,7 +158,7 @@ public class ProductTestData : TheoryData<IFilterComponent, SortInput?, List<Exp
         Add(new FilterGroup
         {
             Operator = LogicalOperator.And,
-            Components =
+            Conditions =
             [
                 FilterCondition.Create<Product>(x => x.Name, ["mouse", "keyboard"])
             ]

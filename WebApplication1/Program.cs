@@ -10,7 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddJsonOptions(x =>
 {
-    x.JsonSerializerOptions.Converters.Add(new FilterComponentConverter());
     x.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
@@ -40,31 +39,3 @@ app.MapControllers();
 
 app.Run();
 
-
-public class FilterComponentConverter : JsonConverter<IFilterComponent>
-{
-    public override IFilterComponent Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        using var doc = JsonDocument.ParseValue(ref reader);
-        var root = doc.RootElement;
-
-        // Heuristic: if it has "Components", treat as FilterGroup
-        if (root.TryGetProperty("Components", out _))
-        {
-            return JsonSerializer.Deserialize<FilterGroup>(root.GetRawText(), options);
-        }
-
-        // Heuristic: if it has "Field", treat as FilterCondition
-        if (root.TryGetProperty("Field", out _))
-        {
-            return JsonSerializer.Deserialize<FilterCondition>(root.GetRawText(), options);
-        }
-
-        throw new JsonException("Unknown IFilterComponent type");
-    }
-
-    public override void Write(Utf8JsonWriter writer, IFilterComponent value, JsonSerializerOptions options)
-    {
-        JsonSerializer.Serialize(writer, (object)value, value.GetType(), options);
-    }
-}

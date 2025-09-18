@@ -3,14 +3,14 @@ using EFDeepQueryDynamicLinq;
 
 namespace DeepQueryUnitTestDynamicLinq.TestData;
 
-public class CustomerTestData : TheoryData<IFilterComponent, List<ExpectedData>>
+public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
 {
     public CustomerTestData()
     {
         Add(new FilterGroup
         {
             Operator = LogicalOperator.And,
-            Components =
+            Conditions =
             [
                 FilterCondition.Create<Customer>(x => x.FirstName,["Joe"]),
                 FilterCondition.Create<Customer>(x => x.LastName,["Borg"]),
@@ -56,12 +56,12 @@ public class CustomerTestData : TheoryData<IFilterComponent, List<ExpectedData>>
         Add(new FilterGroup
         {
             Operator = LogicalOperator.Or,
-            Components =
+            Groups =
             [
                 new FilterGroup
                 {
                     Operator = LogicalOperator.And,
-                    Components =
+                    Conditions =
                     [
                         FilterCondition.Create<Customer>(x => x.FirstName,["Joe"]),
                         FilterCondition.Create<Customer>(x => x.LastName,["Borg"]),
@@ -70,7 +70,7 @@ public class CustomerTestData : TheoryData<IFilterComponent, List<ExpectedData>>
                 new FilterGroup
                 {
                     Operator = LogicalOperator.And,
-                    Components =
+                    Conditions =
                     [
                         FilterCondition.Create<Customer>(x => x.FirstName,["Mary"]),
                         FilterCondition.Create<Customer>(x => x.LastName,["Smith"]),
@@ -141,7 +141,7 @@ public class CustomerTestData : TheoryData<IFilterComponent, List<ExpectedData>>
         Add(new FilterGroup
         {
             Operator = LogicalOperator.And,
-            Components =
+            Conditions =
             [
                 FilterCondition.Create<Customer>(x => x.Orders.Count,[1])
             ]
@@ -198,7 +198,7 @@ public class CustomerTestData : TheoryData<IFilterComponent, List<ExpectedData>>
         Add(new FilterGroup
         {
             Operator = LogicalOperator.And,
-            Components =
+            Conditions =
             [
                 FilterCondition.Create<Customer>(x => x.Orders.Count,[1], SearchOperator.GreaterThan)
             ]
@@ -243,7 +243,7 @@ public class CustomerTestData : TheoryData<IFilterComponent, List<ExpectedData>>
         Add(new FilterGroup
         {
             Operator = LogicalOperator.And,
-            Components =
+            Conditions =
             [
                 FilterCondition.Create<Customer>(x => x.Orders.Count,[1], SearchOperator.GreaterThanOrEquals)
             ]

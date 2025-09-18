@@ -10,7 +10,7 @@ namespace DeepQueryUnitTestDynamicLinq;
 public class DeepQueryTest
 {
     [Theory, ClassData(typeof(OrderTestData))]
-    public void Test_Query_By_Order(IFilterComponent filterInput, SortInput? sortInput, List<ExpectedData> expectedData)
+    public void Test_Query_By_Order(FilterGroup filterInput, SortInput? sortInput, List<ExpectedData> expectedData)
     {
         var filterTranslator = new EFFilterTranslator();
 
@@ -26,7 +26,7 @@ public class DeepQueryTest
     }
 
     [Theory, ClassData(typeof(CustomerTestData))]
-    public void Test_Query_By_Customer(IFilterComponent filterInput, List<ExpectedData> expectedData)
+    public void Test_Query_By_Customer(FilterGroup filterInput, List<ExpectedData> expectedData)
     {
         var filterTranslator = new EFFilterTranslator();
 
@@ -41,8 +41,8 @@ public class DeepQueryTest
             result.Should().SatisfyRespectively(GetCustomerAsseration(expectedData));
     }
 
-    [Theory, ClassData(typeof(ProductTestData))]
-    public void Test_Query_By_Product(IFilterComponent filterInput, SortInput? sortInput, List<ExpectedData> expectedData)
+    [Theory, ClassData(typeof(ProductTestData1))]
+    public void Test_Query_By_Product(FilterGroup filterInput, SortInput? sortInput, List<ExpectedData> expectedData)
     {
         var filterTranslator = new EFFilterTranslator();
 
@@ -56,7 +56,7 @@ public class DeepQueryTest
         if (expectedData.Count != 0)
             result.Should().SatisfyRespectively(GetProductAsseration(expectedData));
     }
-
+    
     private static Action<Order>[] GetOrderAsseration(List<ExpectedData> expectedData)
         => [.. expectedData.Select(item => new Action<Order>(
                 x =>

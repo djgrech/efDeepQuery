@@ -8,16 +8,25 @@ public enum LogicalOperator
     Or
 }
 
-public interface IFilterComponent;
+public enum SearchOperator
+{
+    Equals,
+    Contains,
+    GreaterThan,
+    GreaterThanOrEquals,
+    LessThan,
+    LessThanOrEquals
+}
 
-public class FilterGroup : IFilterComponent
+public class FilterGroup
 {
     public LogicalOperator Operator { get; set; } = LogicalOperator.And;
-    public List<IFilterComponent> Components { get; set; } = [];
+    public List<FilterGroup>? Groups { get; set; } = [];
+    public List<FilterCondition>? Conditions { get; set; } = [];
 }
 
 
-public class FilterCondition : IFilterComponent
+public class FilterCondition
 {
     public string Field { get; set; }
     public FilterOperator Operator { get; set; }
@@ -34,18 +43,9 @@ public class FilterCondition : IFilterComponent
         };
 }
 
+
 public class FilterOperator
 {
     public SearchOperator SearchOperator { get; set; } = SearchOperator.Equals;
     public List<object> Items { get; set; }
-}
-
-public enum SearchOperator
-{
-    Equals,
-    Contains,
-    GreaterThan,
-    GreaterThanOrEquals,
-    LessThan,
-    LessThanOrEquals
 }

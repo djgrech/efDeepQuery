@@ -2,7 +2,6 @@ using DataAccess;
 using DataDomain.Order;
 using EFDeepQueryDynamicLinq;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq.Expressions;
 
 namespace WebApplication1.Controllers
 {
@@ -39,6 +38,6 @@ namespace WebApplication1.Controllers
 public class Request
 {
     public FilterGroup Filter { get; set; }
-    public SortInput Sort { get; set; }
+    public SortInput? Sort { get; set; }
 }
 

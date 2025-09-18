@@ -3,14 +3,14 @@ using EFDeepQueryDynamicLinq;
 
 namespace DeepQueryUnitTestDynamicLinq.TestData;
 
-public class OrderTestData : TheoryData<IFilterComponent, SortInput?, List<ExpectedData>>
+public class OrderTestData : TheoryData<FilterGroup, SortInput?, List<ExpectedData>>
 {
     public OrderTestData()
     {
         Add(new FilterGroup
         {
             Operator = LogicalOperator.And,
-            Components =
+            Conditions =
             [
                 FilterCondition.Create<Order>(x => x.Product.Name, ["mou", "key"], SearchOperator.Contains),
                 FilterCondition.Create<Order>(x => x.OrderDate, ["2024-02-15T00:00:00Z"], SearchOperator.GreaterThan),
@@ -22,13 +22,13 @@ public class OrderTestData : TheoryData<IFilterComponent, SortInput?, List<Expec
         null,
         [
             new ExpectedData()
-    {
-        Order = new Order()
-        {
-            Id = 3,
-            CustomerId = 2,
-            OrderDate = new DateTime(2025, 3, 1)
-        },
+            {
+                Order = new Order()
+                {
+                    Id = 3,
+                    CustomerId = 2,
+                    OrderDate = new DateTime(2025, 3, 1)
+                },
                 Product = new Product()
                 {
                     Id = 2,
@@ -46,12 +46,12 @@ public class OrderTestData : TheoryData<IFilterComponent, SortInput?, List<Expec
         Add(new FilterGroup
         {
             Operator = LogicalOperator.Or,
-            Components =
+            Groups =
             [
                 new FilterGroup
                 {
                     Operator = LogicalOperator.And,
-                    Components =
+                    Conditions =
                     [
                          FilterCondition.Create<Order>(x => x.Product.Name, ["mou", "key"], SearchOperator.Contains),
                          FilterCondition.Create<Order>(x => x.OrderDate, ["2024-02-15T00:00:00Z"], SearchOperator.GreaterThan),
@@ -63,7 +63,7 @@ public class OrderTestData : TheoryData<IFilterComponent, SortInput?, List<Expec
                 new FilterGroup
                 {
                     Operator = LogicalOperator.And,
-                    Components =
+                    Conditions =
                     [
                         FilterCondition.Create<Order>(x => x.Id, [1, 3]),
                         FilterCondition.Create<Order>(x => x.Customer.FirstName, ["Jo"], SearchOperator.Contains)
@@ -74,13 +74,13 @@ public class OrderTestData : TheoryData<IFilterComponent, SortInput?, List<Expec
         null,
         [
             new ExpectedData()
-    {
-        Order = new Order()
-        {
-            Id = 1,
-            CustomerId = 1,
-            OrderDate = new DateTime(2025, 1, 1)
-        },
+            {
+                Order = new Order()
+                {
+                    Id = 1,
+                    CustomerId = 1,
+                    OrderDate = new DateTime(2025, 1, 1)
+                },
                  Product = new Product()
                  {
                      Id = 1,
@@ -94,13 +94,13 @@ public class OrderTestData : TheoryData<IFilterComponent, SortInput?, List<Expec
                  }
              },
              new ExpectedData()
-    {
-        Order = new Order()
-        {
-            Id = 3,
-            CustomerId = 2,
-            OrderDate = new DateTime(2025, 3, 1)
-        },
+            {
+                Order = new Order()
+                {
+                    Id = 3,
+                    CustomerId = 2,
+                    OrderDate = new DateTime(2025, 3, 1)
+                },
                  Product = new Product()
                  {
                      Id = 2,
@@ -118,12 +118,12 @@ public class OrderTestData : TheoryData<IFilterComponent, SortInput?, List<Expec
         Add(new FilterGroup
         {
             Operator = LogicalOperator.Or,
-            Components =
+            Groups =
             [
                 new FilterGroup
                 {
                     Operator = LogicalOperator.And,
-                    Components =
+                    Conditions =
                     [
                          FilterCondition.Create<Order>(x => x.Product.Name, ["mou", "key"], SearchOperator.Contains),
                          FilterCondition.Create<Order>(x => x.OrderDate, ["2024-02-15T00:00:00Z"], SearchOperator.GreaterThan),
@@ -135,7 +135,7 @@ public class OrderTestData : TheoryData<IFilterComponent, SortInput?, List<Expec
                 new FilterGroup
                 {
                     Operator = LogicalOperator.And,
-                    Components =
+                    Conditions =
                     [
                         FilterCondition.Create<Order>(x => x.Id, [1, 3]),
                         FilterCondition.Create<Order>(x => x.Customer.FirstName, ["Jo"], SearchOperator.Contains)
@@ -190,11 +190,11 @@ public class OrderTestData : TheoryData<IFilterComponent, SortInput?, List<Expec
         Add(new FilterGroup
         {
             Operator = LogicalOperator.Or,
-            Components = [
+            Groups = [
                 new FilterGroup
                 {
                     Operator = LogicalOperator.And,
-                    Components =
+                    Conditions =
                     [
                          FilterCondition.Create<Order>(x => x.Product.Name, ["mou", "key"], SearchOperator.Contains),
                          FilterCondition.Create<Order>(x => x.OrderDate, ["2024-02-15T00:00:00Z"], SearchOperator.GreaterThan),
@@ -206,7 +206,7 @@ public class OrderTestData : TheoryData<IFilterComponent, SortInput?, List<Expec
                 new FilterGroup
                 {
                     Operator = LogicalOperator.And,
-                    Components =
+                    Conditions =
                     [
                          FilterCondition.Create<Order>(x => x.Id, [1, 2]),
                          FilterCondition.Create<Order>(x => x.Customer.FirstName, ["Jo"], SearchOperator.Contains),
@@ -281,7 +281,7 @@ public class OrderTestData : TheoryData<IFilterComponent, SortInput?, List<Expec
         Add(new FilterGroup
         {
             Operator = LogicalOperator.And,
-            Components =
+            Conditions =
             [
                  FilterCondition.Create<Order>(x => x.Product.Name, ["mouse"]),
                  FilterCondition.Create<Order>(x => x.OrderDate, ["2024-02-15T00:00:00Z"], SearchOperator.GreaterThan),
@@ -317,7 +317,7 @@ public class OrderTestData : TheoryData<IFilterComponent, SortInput?, List<Expec
         Add(new FilterGroup
         {
             Operator = LogicalOperator.And,
-            Components =
+            Conditions =
             [
                  FilterCondition.Create<Order>(x => x.Product.Name, ["keyboard"]),
                  FilterCondition.Create<Order>(x => x.OrderDate, ["2024-02-15T00:00:00Z"], SearchOperator.GreaterThan),
@@ -333,12 +333,12 @@ public class OrderTestData : TheoryData<IFilterComponent, SortInput?, List<Expec
         Add(new FilterGroup
         {
             Operator = LogicalOperator.And,
-            Components =
+            Groups =
             [
                 new FilterGroup
                 {
                     Operator = LogicalOperator.And,
-                    Components =
+                    Conditions =
                     [
                         FilterCondition.Create<Order>(x => x.Product.Name, ["mouse", "monitor"]),
                         FilterCondition.Create<Order>(x => x.OrderDate, ["2024-02-15T00:00:00Z"], SearchOperator.GreaterThan),
@@ -348,12 +348,12 @@ public class OrderTestData : TheoryData<IFilterComponent, SortInput?, List<Expec
                 new FilterGroup
                 {
                     Operator = LogicalOperator.Or,
-                    Components =
+                    Groups =
                     [
                         new FilterGroup
                         {
                             Operator = LogicalOperator.And,
-                            Components =
+                            Conditions =
                             [
                                 FilterCondition.Create<Order>(x => x.Customer.FirstName, ["Mary"]),
                                 FilterCondition.Create<Order>(x => x.Customer.LastName, ["Smith"]),
@@ -362,7 +362,7 @@ public class OrderTestData : TheoryData<IFilterComponent, SortInput?, List<Expec
                         new FilterGroup
                         {
                             Operator = LogicalOperator.And,
-                            Components =
+                            Conditions =
                             [
                                 FilterCondition.Create<Order>(x => x.Customer.FirstName, ["Mary"]),
                                 FilterCondition.Create<Order>(x => x.Customer.LastName, ["Black"]),

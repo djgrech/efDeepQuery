@@ -7,7 +7,7 @@ namespace EFDeepQueryDynamicLinq;
 
 public interface IEFFilterTranslator
 {
-    IQueryable<TEntity> BuildQuery<TEntity>(IQueryable<TEntity> query, IFilterComponent component, SortInput? sortInput = null)
+    IQueryable<TEntity> BuildQuery<TEntity>(IQueryable<TEntity> query, FilterGroup filterGroup, SortInput? sortInput = null)
             where TEntity : class;
 }
 
@@ -39,11 +39,11 @@ public class EFFilterTranslator : IEFFilterTranslator
         [LogicalOperator.And] = And,
     };
 
-    public IQueryable<TEntity> BuildQuery<TEntity>(IQueryable<TEntity> query, IFilterComponent component, SortInput? sortInput = null)
+    public IQueryable<TEntity> BuildQuery<TEntity>(IQueryable<TEntity> query, FilterGroup filterGroup, SortInput? sortInput = null)
             where TEntity : class
     {
         var f = new FilterMetaData();
-        var queryStr = BuildQuery(component, f);
+        var queryStr = Build(filterGroup, f);
 
         foreach (var entity in f.ProcessedEntities)
             query = query.Include(entity);
@@ -86,58 +86,30 @@ public class EFFilterTranslator : IEFFilterTranslator
         return query;
     }
 
-    private string BuildQuery(IFilterComponent component, FilterMetaData filterMetaData)
+
+    private string Build(FilterGroup filterGroup, FilterMetaData filterMetaData, LogicalOperator? parentOperator = null)
     {
-        if (component is FilterCondition condition)
-            return BuildCondition(condition, filterMetaData);
+        var parts = new List<string>();
 
-        if (component is FilterGroup group)
-        {
-            var filters = new List<string>();
+        if (filterGroup.Conditions?.Any() is true)
+            foreach (var condition in filterGroup.Conditions)
+                parts.Add(BuildCondition(condition, filterMetaData));
 
-            foreach (var g in group.Components)
+        if (filterGroup.Groups?.Any() is true)
+            foreach (var group in filterGroup.Groups)
             {
-                var s = BuildQuery(g, filterMetaData);
-                if (!s.IsNullOrEmpty())
-                    filters.Add(s);
+                var subExpression = Build(group, filterMetaData, filterGroup.Operator);
+                if (!string.IsNullOrEmpty(subExpression))
+                    parts.Add(subExpression);
             }
 
-            if (filters.IsNullOrEmpty())
-                return string.Empty;
+        var expression = string.Join($" {filterGroup.Operator} ", parts);
 
-            var joined = string.Join($" {group.Operator} ", filters.ToArray());
+        var isNeedParams = parentOperator != null && filterGroup.Operator != parentOperator || parts.Count > 1;
 
-            return $"({joined})";
-        }
-
-        return string.Empty;
+        return isNeedParams ? $"({expression})" : expression;
     }
 
-    /*
-    private string BuildQuery(IFilterComponent component, FilterMetaData filterMetaData)
-    {
-        if (component is FilterCondition condition)
-            return BuildCondition(condition, filterMetaData);
-
-        if (component is FilterGroup group)
-        {
-            var subQueries = group
-                .Components
-                .Select(x => BuildQuery(x, filterMetaData))
-                .Where(q => !q.IsNullOrEmpty())
-                .ToList();
-
-            if (subQueries.IsNullOrEmpty())
-                return string.Empty;
-
-            var joined = string.Join($" {logicalOperatorMap[group.Operator]} ", subQueries);
-
-            return $"({joined})";
-        }
-
-        return string.Empty;
-    }
-    */
     private string BuildCondition(FilterCondition condition, FilterMetaData metaData)
     {
         var field = condition.Field;
