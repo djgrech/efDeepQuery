@@ -1,0 +1,43 @@
+version: '3.4'
+
+services:
+  webapp:
+    build:
+      context: .
+      dockerfile: WebApplication1/Dockerfile
+    depends_on:
+      - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Default=Server=sqlserver;Database=blogDb;User=sa;Password=pass1234;TrustServerCertificate=True;    
+    ports:
+      - "5000:8080"
+    networks:
+      - appnet
+
+  mainapp:
+    build:
+      context: .
+      dockerfile: App/Dockerfile
+    depends_on:
+      - webapp
+    environment:
+      - Application__Url=http://webapp:8080/api/
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5001:8080"
+    networks:
+      - appnet
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "pass1234"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    networks:
+      - appnet
+
+networks:
+  appnet:

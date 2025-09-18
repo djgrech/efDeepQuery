@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  	<PackageReference Include="GraphQL.Server.Ui.GraphiQL" Version="8.3.0" />
+	  	<PackageReference Include="Humanizer" Version="2.14.1" />
+    	<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
+		<PackageReference Include="GraphQL" Version="8.5.0" />
+		<PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="8.3.0" />
+		<PackageReference Include="GraphQL.Server.Ui.Playground" Version="8.3.0" />
+		<PackageReference Include="GraphQL.SystemTextJson" Version="8.5.0" />
+		<PackageReference Include="GraphQL.DataLoader" Version="8.5.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+	</ItemGroup>
+</Project>

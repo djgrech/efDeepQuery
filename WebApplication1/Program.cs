@@ -18,7 +18,10 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ApplicationContext>(c => c.UseSqlServer("Server=.\\SQLExpress;Database=blogDb;Trusted_Connection=True;TrustServerCertificate=True"));
+var connectionString = builder.Configuration.GetConnectionString("default");
+
+builder.Services.AddDbContext<ApplicationContext>(c => c.UseSqlServer(connectionString));
+//builder.Services.AddDbContext<ApplicationContext>(c => c.UseSqlServer("Server=.\\SQLExpress;Database=blogDb;Trusted_Connection=True;TrustServerCertificate=True"));
 
 builder.Services.AddSingleton<IEFFilterTranslator, EFFilterTranslator>();
 
@@ -36,6 +39,13 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Apply migrations automatically
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+    db.Database.Migrate();
+}
 
 app.Run();
 
