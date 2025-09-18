@@ -3,37 +3,24 @@ using DataDomain.Order;
 using EFDeepQueryDynamicLinq;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApplication1.Controllers
+namespace WebApplication1.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class DataController(
+    ILogger<DataController> logger,
+    IEFFilterTranslator translator,
+    ApplicationContext context
+) : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class DataController : ControllerBase
+    [HttpPost]
+    public List<Order> Get(Request request)
     {
-        private readonly ILogger<DataController> _logger;
-        private readonly IEFFilterTranslator translator;
-        private readonly ApplicationContext context;
-
-        public DataController(ILogger<DataController> logger, IEFFilterTranslator translator, ApplicationContext context)
-        {
-            _logger = logger;
-            this.translator = translator;
-            this.context = context;
-        }
-
-        [HttpPost]
-        public List<Order> Get(Request request)
-        {
-            var query = context.Set<Order>().AsQueryable();
-            query = translator.BuildQuery(query, request.Filter, request.Sort);
-            var list = query.ToList();
-
-            return list;
-
-            return [.. query];
-        }
+        var query = context.Set<Order>().AsQueryable();
+        query = translator.BuildQuery(query, request.Filter, request.Sort);
+        return [.. query];
     }
 }
-
 
 public class Request
 {

@@ -56,7 +56,7 @@ public class DeepQueryTest
         if (expectedData.Count != 0)
             result.Should().SatisfyRespectively(GetProductAsseration(expectedData));
     }
-    
+
     private static Action<Order>[] GetOrderAsseration(List<ExpectedData> expectedData)
         => [.. expectedData.Select(item => new Action<Order>(
                 x =>
