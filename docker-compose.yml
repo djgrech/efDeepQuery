@@ -9,7 +9,7 @@ services:
       - sqlserver
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__Default=Server=sqlserver;Database=blogDb;User=sa;Password=pass1234;TrustServerCertificate=True;    
+      - ConnectionStrings__Default=Server=sqlserver;Database=blogDb;User=sa;Password=Ot!grQJzLp&I;TrustServerCertificate=True;    
     ports:
       - "5000:8080"
     networks:
@@ -32,7 +32,7 @@ services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
-      SA_PASSWORD: "pass1234"
+      SA_PASSWORD: "Ot!grQJzLp&I"
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
