@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFDeepQueryDynamicLinq", "E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepQueryUnitTestDynamicLinq", "DeepQueryUnitTestDynamicLinq\DeepQueryUnitTestDynamicLinq.csproj", "{7F2A8BCC-5814-2D1E-2B42-04194E2F21D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{CD4CC169-D734-4B5A-BC28-23796644A5AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.csproj", "{CD4CC169-D734-4B5A-BC28-23796644A5AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQLSample", "App\GraphQLSample.csproj", "{CA4EB00B-5C1A-CF6F-FFCC-A072E3F97907}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQLSample", "GraphQLSample\GraphQLSample.csproj", "{CA4EB00B-5C1A-CF6F-FFCC-A072E3F97907}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataService", "DataService\DataService.csproj", "{911AFA1B-B0CE-4945-B389-D3FA4F95CF7A}"
 EndProject

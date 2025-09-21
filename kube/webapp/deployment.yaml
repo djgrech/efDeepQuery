@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+        - name: webapp
+          image: webapp:1.0.0
+          env:
+            - name: ConnectionStrings__Default
+              value: "Server=sqlserver;Database=blogDb;User Id=sa;Password=Ot!grQJzLp&I;TrustServerCertificate=True;"
+          ports:
+            - containerPort: 8080

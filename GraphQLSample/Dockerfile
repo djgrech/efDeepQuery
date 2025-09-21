@@ -5,11 +5,11 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-COPY App/GraphQLSample.csproj App/
-RUN dotnet restore App/GraphQLSample.csproj
+COPY GraphQLSample/GraphQLSample.csproj GraphQLSample/
+RUN dotnet restore GraphQLSample/GraphQLSample.csproj
 
 COPY . .
-WORKDIR /src/App
+WORKDIR /src/GraphQLSample
 RUN dotnet publish -c Release -o /app/publish
 
 FROM base AS final

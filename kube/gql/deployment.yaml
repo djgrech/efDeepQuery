@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mainapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mainapp
+  template:
+    metadata:
+      labels:
+        app: mainapp
+    spec:
+      containers:
+        - name: mainapp
+          image: mainapp:1.0.0
+          env:
+            - name: Application__Url
+              value: "http://webapp:3000/api/"
+          ports:
+            - containerPort: 8080
