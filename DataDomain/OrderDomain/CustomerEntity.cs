@@ -1,9 +1,8 @@
-﻿using DataDomain.Interfaces.Domain;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DataDomain.Interfaces.Domain;
 
-public class Customer : IEntity
+public class CustomerEntity : IEntity
 {
     public int Id { get; set; }
     [StringLength(50)]
@@ -11,5 +10,5 @@ public class Customer : IEntity
     [StringLength(50)]
     public string LastName { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; }
+    public virtual ICollection<OrderEntity> Orders { get; set; }
 }

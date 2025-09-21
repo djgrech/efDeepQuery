@@ -19,9 +19,9 @@ void Test2()
                 Operator = LogicalOperator.And,
                 Conditions =
                 {
-                    FilterCondition.Create<Order>(x => x.Product.Name, ["mouse", "monitor"]),
-                    FilterCondition.Create<Order>(x => x.OrderDate,  ["2024-02-15T00:00:00Z"], SearchOperator.GreaterThan),
-                    FilterCondition.Create<Order>(x => x.OrderDate,  ["2025-03-15T00:00:00Z"], SearchOperator.LessThan)
+                    FilterCondition.Create<OrderEntity>(x => x.Product.Name, ["mouse", "monitor"]),
+                    FilterCondition.Create<OrderEntity>(x => x.OrderDate,  ["2024-02-15T00:00:00Z"], SearchOperator.GreaterThan),
+                    FilterCondition.Create<OrderEntity>(x => x.OrderDate,  ["2025-03-15T00:00:00Z"], SearchOperator.LessThan)
                 }
             },
             new FilterGroup
@@ -34,8 +34,8 @@ void Test2()
                             Operator = LogicalOperator.And,
                             Conditions =
                             {
-                                FilterCondition.Create<Order>(x => x.Customer.FirstName, ["Mary"]),
-                                FilterCondition.Create<Order>(x => x.Customer.LastName, ["Smith"])
+                                FilterCondition.Create<OrderEntity>(x => x.Customer.FirstName, ["Mary"]),
+                                FilterCondition.Create<OrderEntity>(x => x.Customer.LastName, ["Smith"])
                             }
                         },
                         new FilterGroup
@@ -43,8 +43,8 @@ void Test2()
                             Operator = LogicalOperator.And,
                             Conditions =
                             {
-                                FilterCondition.Create<Order>(x => x.Customer.FirstName, ["Mary"]),
-                                FilterCondition.Create<Order>(x => x.Customer.LastName, ["Black"])
+                                FilterCondition.Create<OrderEntity>(x => x.Customer.FirstName, ["Mary"]),
+                                FilterCondition.Create<OrderEntity>(x => x.Customer.LastName, ["Black"])
                             }
                         }
                     }
@@ -61,7 +61,7 @@ void Test2()
     var context = new ApplicationContext();
 
     var efFilterTranslator = new EFFilterTranslator();
-    var query = context.Set<Order>().AsQueryable();
+    var query = context.Set<OrderEntity>().AsQueryable();
 
     query = efFilterTranslator.BuildQuery(query, filter, sortInput);
 
@@ -88,8 +88,8 @@ void Test3()
                             Operator = LogicalOperator.And,
                             Conditions =
                             {
-                                FilterCondition.Create<Customer>(x => x.FirstName, ["Mary"]),
-                                FilterCondition.Create<Customer>(x => x.LastName, ["Smith"])
+                                FilterCondition.Create<CustomerEntity>(x => x.FirstName, ["Mary"]),
+                                FilterCondition.Create<CustomerEntity>(x => x.LastName, ["Smith"])
                             }
                         },
                         new FilterGroup
@@ -97,8 +97,8 @@ void Test3()
                             Operator = LogicalOperator.And,
                             Conditions =
                             {
-                                FilterCondition.Create<Customer>(x => x.FirstName, ["Mary"]),
-                                FilterCondition.Create<Customer>(x => x.LastName, ["Black"])
+                                FilterCondition.Create<CustomerEntity>(x => x.FirstName, ["Mary"]),
+                                FilterCondition.Create<CustomerEntity>(x => x.LastName, ["Black"])
                             }
                         }
                     }
@@ -109,7 +109,7 @@ void Test3()
     var context = new ApplicationContext();
 
     var efFilterTranslator = new EFFilterTranslator();
-    var query = context.Set<Customer>().AsQueryable();
+    var query = context.Set<CustomerEntity>().AsQueryable();
 
     query = efFilterTranslator.BuildQuery(query, filter);
 

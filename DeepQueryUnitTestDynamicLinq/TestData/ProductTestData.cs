@@ -13,19 +13,19 @@ public class ProductTestData1 : TheoryData<FilterGroup, SortInput?, List<Expecte
             Operator = LogicalOperator.And,
             Conditions =
             [
-                FilterCondition.Create<Product>(x => x.Name, ["keyboard"])
+                FilterCondition.Create<ProductEntity>(x => x.Name, ["keyboard"])
             ]
         },
         null,
         [
             new ExpectedData()
             {
-                Product = new Product
+                Product = new ProductEntity
                 {
                     Id = 1,
                     Name = "keyboard",
                     Orders = [
-                        new Order()
+                        new OrderEntity()
                         {
                             Id = 1,
                             OrderDate = new DateTime(2025,1,1),
@@ -47,19 +47,19 @@ public class ProductTestData1 : TheoryData<FilterGroup, SortInput?, List<Expecte
             Operator = LogicalOperator.And,
             Conditions =
             [
-                FilterCondition.Create<Product>(x => x.Name, ["mouse"])
+                FilterCondition.Create<ProductEntity>(x => x.Name, ["mouse"])
             ]
         },
         null,
         [
             new ExpectedData()
             {
-                Product = new Product
+                Product = new ProductEntity
                 {
                     Id = 2,
                     Name = "mouse",
                     Orders = [
-                        new Order()
+                        new OrderEntity()
                         {
                             Id = 2,
                             OrderDate = new DateTime(2025,2,1),
@@ -71,7 +71,7 @@ public class ProductTestData1 : TheoryData<FilterGroup, SortInput?, List<Expecte
                                 LastName = "Borg"
                             }
                         },
-                        new Order()
+                        new OrderEntity()
                         {
                             Id = 3,
                             OrderDate = new DateTime(2025,3,1),
@@ -93,19 +93,19 @@ public class ProductTestData1 : TheoryData<FilterGroup, SortInput?, List<Expecte
             Operator = LogicalOperator.And,
             Conditions =
             [
-                FilterCondition.Create<Product>(x => x.Name, ["mouse", "keyboard"])
+                FilterCondition.Create<ProductEntity>(x => x.Name, ["mouse", "keyboard"])
             ]
         },
-        new SortInput().Add<Product>(x => x.Name, SortDirection.Desc),
+        new SortInput().Add<ProductEntity>(x => x.Name, SortDirection.Desc),
         [
             new ExpectedData()
             {
-                Product = new Product
+                Product = new ProductEntity
                 {
                     Id = 2,
                     Name = "mouse",
                     Orders = [
-                        new Order()
+                        new OrderEntity()
                         {
                             Id = 2,
                             OrderDate = new DateTime(2025,2,1),
@@ -117,7 +117,7 @@ public class ProductTestData1 : TheoryData<FilterGroup, SortInput?, List<Expecte
                                 LastName = "Borg"
                             }
                         },
-                        new Order()
+                        new OrderEntity()
                         {
                             Id = 3,
                             OrderDate = new DateTime(2025,3,1),
@@ -134,12 +134,12 @@ public class ProductTestData1 : TheoryData<FilterGroup, SortInput?, List<Expecte
             },
             new ExpectedData()
             {
-                Product = new Product
+                Product = new ProductEntity
                 {
                     Id = 1,
                     Name = "keyboard",
                     Orders = [
-                        new Order()
+                        new OrderEntity()
                         {
                             Id = 1,
                             OrderDate = new DateTime(2025,1,1),
@@ -161,19 +161,19 @@ public class ProductTestData1 : TheoryData<FilterGroup, SortInput?, List<Expecte
             Operator = LogicalOperator.And,
             Conditions =
             [
-                FilterCondition.Create<Product>(x => x.Name, ["mouse", "keyboard"])
+                FilterCondition.Create<ProductEntity>(x => x.Name, ["mouse", "keyboard"])
             ]
         },
         new SortInput().Add("Name"),
         [
             new ExpectedData()
             {
-                Product = new Product
+                Product = new ProductEntity
                 {
                     Id = 1,
                     Name = "keyboard",
                     Orders = [
-                        new Order()
+                        new OrderEntity()
                         {
                             Id = 1,
                             OrderDate = new DateTime(2025,1,1),
@@ -190,12 +190,12 @@ public class ProductTestData1 : TheoryData<FilterGroup, SortInput?, List<Expecte
             },
             new ExpectedData()
             {
-                Product = new Product
+                Product = new ProductEntity
                 {
                     Id = 2,
                     Name = "mouse",
                     Orders = [
-                        new Order()
+                        new OrderEntity()
                         {
                             Id = 2,
                             OrderDate = new DateTime(2025,2,1),
@@ -207,7 +207,7 @@ public class ProductTestData1 : TheoryData<FilterGroup, SortInput?, List<Expecte
                                 LastName = "Borg"
                             }
                         },
-                        new Order()
+                        new OrderEntity()
                         {
                             Id = 3,
                             OrderDate = new DateTime(2025,3,1),

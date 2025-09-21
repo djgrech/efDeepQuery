@@ -16,7 +16,7 @@ public class DeepQueryTest
         var filterTranslator = new EFFilterTranslator();
 
         var context = GetContext();
-        var query = context.Set<Order>().AsQueryable();
+        var query = context.Set<OrderEntity>().AsQueryable();
         query = filterTranslator.BuildQuery(query, filterInput, sortInput);
 
         var result = query.ToList();
@@ -32,7 +32,7 @@ public class DeepQueryTest
         var filterTranslator = new EFFilterTranslator();
 
         var context = GetContext();
-        var query = context.Set<Customer>().AsQueryable();
+        var query = context.Set<CustomerEntity>().AsQueryable();
         query = filterTranslator.BuildQuery(query, filterInput);
 
         var result = query.ToList();
@@ -48,7 +48,7 @@ public class DeepQueryTest
         var filterTranslator = new EFFilterTranslator();
 
         var context = GetContext();
-        var query = context.Set<Product>().AsQueryable();
+        var query = context.Set<ProductEntity>().AsQueryable();
         query = filterTranslator.BuildQuery(query, filterInput, sortInput);
 
         var result = query.ToList();
@@ -58,8 +58,8 @@ public class DeepQueryTest
             result.Should().SatisfyRespectively(GetProductAsseration(expectedData));
     }
 
-    private static Action<Order>[] GetOrderAsseration(List<ExpectedData> expectedData)
-        => [.. expectedData.Select(item => new Action<Order>(
+    private static Action<OrderEntity>[] GetOrderAsseration(List<ExpectedData> expectedData)
+        => [.. expectedData.Select(item => new Action<OrderEntity>(
                 x =>
                 {
                     x.OrderDate.Should().Be(item.Order.OrderDate);
@@ -72,8 +72,8 @@ public class DeepQueryTest
                     x.Customer.Id.Should().Be(item.Customer.Id);
                 }))];
 
-    private static Action<Customer>[] GetCustomerAsseration(List<ExpectedData> expectedData)
-        => [.. expectedData.Select(item => new Action<Customer>(
+    private static Action<CustomerEntity>[] GetCustomerAsseration(List<ExpectedData> expectedData)
+        => [.. expectedData.Select(item => new Action<CustomerEntity>(
                 x =>
                 {
                     x.Id.Should().Be(item.Customer.Id);
@@ -84,13 +84,13 @@ public class DeepQueryTest
                     x.Orders.Should().SatisfyRespectively(GetOrderAsseration([.. item.Orders.Select(order => new ExpectedData()
                     {
                         Order = order,
-                        Customer = new Customer()
+                        Customer = new CustomerEntity()
                         {
                             Id = item.Customer.Id,
                             FirstName = item.Customer.FirstName,
                             LastName = item.Customer.LastName,
                         },
-                        Product = new Product()
+                        Product = new ProductEntity()
                         {
                             Id = order.Product.Id,
                             Name = order.Product.Name,
@@ -98,8 +98,8 @@ public class DeepQueryTest
                     })]));
                 }))];
 
-    private static Action<Product>[] GetProductAsseration(List<ExpectedData> expectedData)
-        => [.. expectedData.Select(item => new Action<Product>(
+    private static Action<ProductEntity>[] GetProductAsseration(List<ExpectedData> expectedData)
+        => [.. expectedData.Select(item => new Action<ProductEntity>(
             x =>
             {
                 x.Id.Should().Be(item.Product.Id);
@@ -108,13 +108,13 @@ public class DeepQueryTest
                 x.Orders.Should().SatisfyRespectively(GetOrderAsseration([.. item.Product.Orders.Select(order => new ExpectedData()
                     {
                         Order = order,
-                        Customer = new Customer()
+                        Customer = new CustomerEntity()
                         {
                             Id = order.Customer.Id,
                             FirstName = order.Customer.FirstName,
                             LastName = order.Customer.LastName,
                         },
-                        Product = new Product()
+                        Product = new ProductEntity()
                         {
                             Id = item.Product.Id,
                             Name = item.Product.Name,

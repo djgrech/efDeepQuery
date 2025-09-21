@@ -13,8 +13,8 @@ public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
             Operator = LogicalOperator.And,
             Conditions =
             [
-                FilterCondition.Create<Customer>(x => x.FirstName,["Joe"]),
-                FilterCondition.Create<Customer>(x => x.LastName,["Borg"]),
+                FilterCondition.Create<CustomerEntity>(x => x.FirstName,["Joe"]),
+                FilterCondition.Create<CustomerEntity>(x => x.LastName,["Borg"]),
             ]
         },
         [
@@ -22,30 +22,30 @@ public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
             {
                 Orders =
                 [
-                    new Order()
+                    new OrderEntity()
                     {
                         Id = 1,
                         OrderDate = new DateTime(2025, 1, 1),
                         CustomerId = 1,
-                        Product = new Product()
+                        Product = new ProductEntity()
                         {
                             Id = 1,
                             Name = "keyboard"
                         },
                     },
-                    new Order()
+                    new OrderEntity()
                     {
                         Id = 2,
                         OrderDate = new DateTime(2025, 2, 1),
                         CustomerId = 1,
-                        Product = new Product()
+                        Product = new ProductEntity()
                         {
                             Id = 2,
                             Name = "mouse"
                         }
                     }
                 ],
-                Customer = new Customer()
+                Customer = new CustomerEntity()
                 {
                     Id = 1,
                     FirstName = "Joe",
@@ -64,8 +64,8 @@ public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
                     Operator = LogicalOperator.And,
                     Conditions =
                     [
-                        FilterCondition.Create<Customer>(x => x.FirstName,["Joe"]),
-                        FilterCondition.Create<Customer>(x => x.LastName,["Borg"]),
+                        FilterCondition.Create<CustomerEntity>(x => x.FirstName,["Joe"]),
+                        FilterCondition.Create<CustomerEntity>(x => x.LastName,["Borg"]),
                     ]
                 },
                 new FilterGroup
@@ -73,8 +73,8 @@ public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
                     Operator = LogicalOperator.And,
                     Conditions =
                     [
-                        FilterCondition.Create<Customer>(x => x.FirstName,["Mary"]),
-                        FilterCondition.Create<Customer>(x => x.LastName,["Smith"]),
+                        FilterCondition.Create<CustomerEntity>(x => x.FirstName,["Mary"]),
+                        FilterCondition.Create<CustomerEntity>(x => x.LastName,["Smith"]),
                     ]
                 },
             ]
@@ -84,30 +84,30 @@ public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
             {
                 Orders =
                 [
-                    new Order()
+                    new OrderEntity()
                     {
                         Id = 1,
                         OrderDate = new DateTime(2025, 1, 1),
                         CustomerId = 1,
-                        Product = new Product()
+                        Product = new ProductEntity()
                         {
                             Id = 1,
                             Name = "keyboard"
                         },
                     },
-                    new Order()
+                    new OrderEntity()
                     {
                         Id = 2,
                         OrderDate = new DateTime(2025, 2, 1),
                         CustomerId = 1,
-                        Product = new Product()
+                        Product = new ProductEntity()
                         {
                             Id = 2,
                             Name = "mouse"
                         }
                     }
                 ],
-                Customer = new Customer()
+                Customer = new CustomerEntity()
                 {
                     Id = 1,
                     FirstName = "Joe",
@@ -118,19 +118,19 @@ public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
             {
                 Orders =
                 [
-                    new Order()
+                    new OrderEntity()
                     {
                         Id = 3,
                         OrderDate = new DateTime(2025, 3, 1),
                         CustomerId = 2,
-                        Product = new Product()
+                        Product = new ProductEntity()
                         {
                             Id = 2,
                             Name = "mouse"
                         },
                     }
                 ],
-                Customer = new Customer()
+                Customer = new CustomerEntity()
                 {
                     Id = 2,
                     FirstName = "Mary",
@@ -144,7 +144,7 @@ public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
             Operator = LogicalOperator.And,
             Conditions =
             [
-                FilterCondition.Create<Customer>(x => x.Orders.Count,[1])
+                FilterCondition.Create<CustomerEntity>(x => x.Orders.Count,[1])
             ]
         },
         [
@@ -152,19 +152,19 @@ public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
             {
                 Orders =
                 [
-                    new Order()
+                    new OrderEntity()
                     {
                         Id = 3,
                         OrderDate = new DateTime(2025, 3, 1),
                         CustomerId = 2,
-                        Product = new Product()
+                        Product = new ProductEntity()
                         {
                             Id = 2,
                             Name = "mouse"
                         },
                     }
                 ],
-                Customer = new Customer()
+                Customer = new CustomerEntity()
                 {
                     Id = 2,
                     FirstName = "Mary",
@@ -175,19 +175,19 @@ public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
             {
                 Orders =
                 [
-                    new Order()
+                    new OrderEntity()
                     {
                         Id = 4,
                         OrderDate = new DateTime(2025, 3, 1),
                         CustomerId = 3,
-                        Product = new Product()
+                        Product = new ProductEntity()
                         {
                             Id = 3,
                             Name = "monitor"
                         },
                     }
                 ],
-                Customer = new Customer()
+                Customer = new CustomerEntity()
                 {
                     Id = 3,
                     FirstName = "Mary",
@@ -201,7 +201,7 @@ public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
             Operator = LogicalOperator.And,
             Conditions =
             [
-                FilterCondition.Create<Customer>(x => x.Orders.Count,[1], SearchOperator.GreaterThan)
+                FilterCondition.Create<CustomerEntity>(x => x.Orders.Count,[1], SearchOperator.GreaterThan)
             ]
         },
         [
@@ -209,30 +209,30 @@ public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
             {
                 Orders =
                 [
-                    new Order()
+                    new OrderEntity()
                     {
                         Id = 1,
                         OrderDate = new DateTime(2025, 1, 1),
                         CustomerId = 1,
-                        Product = new Product()
+                        Product = new ProductEntity()
                         {
                             Id = 1,
                             Name = "keyboard"
                         },
                     },
-                    new Order()
+                    new OrderEntity()
                     {
                         Id = 2,
                         OrderDate = new DateTime(2025, 2, 1),
                         CustomerId = 1,
-                        Product = new Product()
+                        Product = new ProductEntity()
                         {
                             Id = 2,
                             Name = "mouse"
                         }
                     }
                 ],
-                Customer = new Customer()
+                Customer = new CustomerEntity()
                 {
                     Id = 1,
                     FirstName = "Joe",
@@ -246,7 +246,7 @@ public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
             Operator = LogicalOperator.And,
             Conditions =
             [
-                FilterCondition.Create<Customer>(x => x.Orders.Count,[1], SearchOperator.GreaterThanOrEquals)
+                FilterCondition.Create<CustomerEntity>(x => x.Orders.Count,[1], SearchOperator.GreaterThanOrEquals)
             ]
         },
         [
@@ -254,30 +254,30 @@ public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
             {
                 Orders =
                 [
-                    new Order()
+                    new OrderEntity()
                     {
                         Id = 1,
                         OrderDate = new DateTime(2025, 1, 1),
                         CustomerId = 1,
-                        Product = new Product()
+                        Product = new ProductEntity()
                         {
                             Id = 1,
                             Name = "keyboard"
                         },
                     },
-                    new Order()
+                    new OrderEntity()
                     {
                         Id = 2,
                         OrderDate = new DateTime(2025, 2, 1),
                         CustomerId = 1,
-                        Product = new Product()
+                        Product = new ProductEntity()
                         {
                             Id = 2,
                             Name = "mouse"
                         }
                     }
                 ],
-                Customer = new Customer()
+                Customer = new CustomerEntity()
                 {
                     Id = 1,
                     FirstName = "Joe",
@@ -288,19 +288,19 @@ public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
             {
                 Orders =
                 [
-                    new Order()
+                    new OrderEntity()
                     {
                         Id = 3,
                         OrderDate = new DateTime(2025, 3, 1),
                         CustomerId = 2,
-                        Product = new Product()
+                        Product = new ProductEntity()
                         {
                             Id = 2,
                             Name = "mouse"
                         },
                     }
                 ],
-                Customer = new Customer()
+                Customer = new CustomerEntity()
                 {
                     Id = 2,
                     FirstName = "Mary",
@@ -311,19 +311,19 @@ public class CustomerTestData : TheoryData<FilterGroup, List<ExpectedData>>
             {
                 Orders =
                 [
-                    new Order()
+                    new OrderEntity()
                     {
                         Id = 4,
                         OrderDate = new DateTime(2025, 3, 1),
                         CustomerId = 3,
-                        Product = new Product()
+                        Product = new ProductEntity()
                         {
                             Id = 3,
                             Name = "monitor"
                         },
                     }
                 ],
-                Customer = new Customer()
+                Customer = new CustomerEntity()
                 {
                     Id = 3,
                     FirstName = "Mary",

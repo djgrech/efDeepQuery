@@ -5,7 +5,7 @@ using DataService.DTOs;
 using EFDeepQueryDynamicLinq;
 
 namespace DataService.Services;
-public interface IProductService : IBaseService<ProductDTO, Product>;
+public interface IProductService : IBaseService<ProductDTO, ProductEntity>;
 
 public class ProductService(IProductRepository repository, IMapper mapper) 
-    : BaseService<ProductDTO, Product>(repository, mapper), IProductService;
+    : BaseService<ProductDTO, ProductEntity>(repository, mapper), IProductService;

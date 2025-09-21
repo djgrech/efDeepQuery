@@ -2,4 +2,4 @@
 
 namespace DataDomain.Interfaces;
 
-public interface IOrderRepository : IRepository<Order>;
+public interface IOrderRepository : IRepository<OrderEntity>;

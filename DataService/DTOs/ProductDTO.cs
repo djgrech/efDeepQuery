@@ -14,7 +14,7 @@ public class ProductToProductDTOMappingProfile : Profile
 {
     public ProductToProductDTOMappingProfile()
     {
-        CreateMap<Product, ProductDTO>()
+        CreateMap<ProductEntity, ProductDTO>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
     }

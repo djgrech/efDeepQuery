@@ -16,7 +16,7 @@ public class OrderToOrderDTOMappingProfile : Profile
 {
     public OrderToOrderDTOMappingProfile()
     {
-        CreateMap<Order, OrderDTO>()
+        CreateMap<OrderEntity, OrderDTO>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
             .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => src.OrderDate))

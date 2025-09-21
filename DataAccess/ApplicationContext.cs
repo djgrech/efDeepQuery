@@ -56,28 +56,28 @@ public class ApplicationContext : DbContext
 
         // product
 
-        modelBuilder.Entity<Product>(b =>
+        modelBuilder.Entity<ProductEntity>(b =>
         {
             b.HasData(DataSeeding.Products);
         });
 
-        modelBuilder.Entity<Customer>(b =>
+        modelBuilder.Entity<CustomerEntity>(b =>
         {
             b.HasData(DataSeeding.Customers);
         });
 
-        modelBuilder.Entity<Order>(b =>
+        modelBuilder.Entity<OrderEntity>(b =>
         {
             b.HasData(DataSeeding.Orders);
         });
 
 
-        modelBuilder.Entity<Product>()
+        modelBuilder.Entity<ProductEntity>()
             .HasMany(p => p.Orders)
             .WithOne(o => o.Product)
             .HasForeignKey(o => o.ProductId);
 
-        modelBuilder.Entity<Customer>()
+        modelBuilder.Entity<CustomerEntity>()
             .HasMany(c => c.Orders)  // Add this relationship
             .WithOne(o => o.Customer)
             .HasForeignKey(o => o.CustomerId);
@@ -89,8 +89,8 @@ public class ApplicationContext : DbContext
     public DbSet<Brand> Brands { get; set; }
     public DbSet<Organization> Organizations { get; set; }
 
-    public virtual DbSet<Product> Products { get; set; }
-    public virtual DbSet<Order> Orders { get; set; }
-    public virtual DbSet<Customer> Customers { get; set; }
+    public virtual DbSet<ProductEntity> Products { get; set; }
+    public virtual DbSet<OrderEntity> Orders { get; set; }
+    public virtual DbSet<CustomerEntity> Customers { get; set; }
 
 }

@@ -6,7 +6,7 @@ using EFDeepQueryDynamicLinq;
 
 namespace DataService.Services;
 
-public interface ICustomerService : IBaseService<CustomerDTO, Customer>;
+public interface ICustomerService : IBaseService<CustomerDTO, CustomerEntity>;
 
 public class CustomerService(ICustomerRepository repository, IMapper mapper)
-    : BaseService<CustomerDTO, Customer>(repository, mapper), ICustomerService;
+    : BaseService<CustomerDTO, CustomerEntity>(repository, mapper), ICustomerService;

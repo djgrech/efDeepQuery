@@ -6,13 +6,13 @@ using EFDeepQueryDynamicLinq;
 
 namespace DataService.Services;
 
-public interface IOrderService : IBaseService<OrderDTO, Order>
+public interface IOrderService : IBaseService<OrderDTO, OrderEntity>
 {
     Task<List<OrderDTO>> GetByCustomerIds(HashSet<int> ids);
 }
 
 public class OrderService(IOrderRepository repository, IMapper mapper)
-    : BaseService<OrderDTO, Order>(repository, mapper), IOrderService
+    : BaseService<OrderDTO, OrderEntity>(repository, mapper), IOrderService
 {
     public async Task<List<OrderDTO>> GetByCustomerIds(HashSet<int> ids)
     {

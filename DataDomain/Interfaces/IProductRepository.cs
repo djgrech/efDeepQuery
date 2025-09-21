@@ -2,4 +2,4 @@
 
 namespace DataDomain.Interfaces;
 
-public interface IProductRepository : IRepository<Product>;
+public interface IProductRepository : IRepository<ProductEntity>;

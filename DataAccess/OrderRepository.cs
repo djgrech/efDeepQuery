@@ -4,7 +4,7 @@ using EFDeepQueryDynamicLinq;
 
 namespace DataAccess;
 
-public class OrderRepository : Repository<Order>, IOrderRepository
+public class OrderRepository : Repository<OrderEntity>, IOrderRepository
 {
     public OrderRepository(ApplicationContext context, IEFFilterTranslator eFFilterTranslator) : base(context, eFFilterTranslator)
     {
