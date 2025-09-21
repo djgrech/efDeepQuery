@@ -2,23 +2,27 @@ version: '3.4'
 
 services:
   webapp:
+    container_name: webapp
+    image: webapp:1.0.0
     build:
       context: .
-      dockerfile: WebApplication1/Dockerfile
+      dockerfile: Backend/Dockerfile
     depends_on:
       - sqlserver
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__Default=Server=sqlserver;Database=blogDb;User=sa;Password=Ot!grQJzLp&I;TrustServerCertificate=True;    
+      - ConnectionStrings__Default=Server=sqlserver;Database=blogDb;User Id=sa;Password=Ot!grQJzLp&I;TrustServerCertificate=True;    
     ports:
       - "5000:8080"
     networks:
       - appnet
 
   mainapp:
+    container_name: mainapp
+    image: mainapp:1.0.0
     build:
       context: .
-      dockerfile: App/Dockerfile
+      dockerfile: GraphQLSample/Dockerfile
     depends_on:
       - webapp
     environment:
