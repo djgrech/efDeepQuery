@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace EFDeepQueryDynamicLinq;
+namespace Common;
 
 public enum LogicalOperator
 {

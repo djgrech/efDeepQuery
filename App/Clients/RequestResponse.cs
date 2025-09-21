@@ -18,18 +18,16 @@ public class OrderResponse : ResponseBase
     public DateTime OrderDate { get; set; }
 
     public int ProductId { get; set; }
-    public Product Product { get; set; }
 
     public int CustomerId { get; set; }
-    public Customer Customer { get; set; }
 }
 
-public class Product : ResponseBase
+public class ProductResponse : ResponseBase
 {
     public string Name { get; set; }
 }
 
-public class Customer : ResponseBase
+public class CustomerResponse : ResponseBase
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }

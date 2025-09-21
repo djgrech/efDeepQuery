@@ -1,4 +1,5 @@
-﻿using DataDomain.Order;
+﻿
+using DataDomain.Interfaces.Domain;
 
 namespace DeepQueryUnitTestDynamicLinq;
 

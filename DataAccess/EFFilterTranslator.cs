@@ -1,15 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Common;
+using DataDomain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Text.Json;
 
 namespace EFDeepQueryDynamicLinq;
-
-public interface IEFFilterTranslator
-{
-    IQueryable<TEntity> BuildQuery<TEntity>(IQueryable<TEntity> query, FilterGroup filterGroup, SortInput? sortInput = null)
-            where TEntity : class;
-}
 
 public class EFFilterTranslator : IEFFilterTranslator
 {

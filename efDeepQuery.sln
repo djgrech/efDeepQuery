@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebAppli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQLSample", "App\GraphQLSample.csproj", "{CA4EB00B-5C1A-CF6F-FFCC-A072E3F97907}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataService", "DataService\DataService.csproj", "{911AFA1B-B0CE-4945-B389-D3FA4F95CF7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{C2112B93-4728-4CE4-B293-A1BFAFDD2DC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{CA4EB00B-5C1A-CF6F-FFCC-A072E3F97907}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA4EB00B-5C1A-CF6F-FFCC-A072E3F97907}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA4EB00B-5C1A-CF6F-FFCC-A072E3F97907}.Release|Any CPU.Build.0 = Release|Any CPU
+		{911AFA1B-B0CE-4945-B389-D3FA4F95CF7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{911AFA1B-B0CE-4945-B389-D3FA4F95CF7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{911AFA1B-B0CE-4945-B389-D3FA4F95CF7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{911AFA1B-B0CE-4945-B389-D3FA4F95CF7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2112B93-4728-4CE4-B293-A1BFAFDD2DC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2112B93-4728-4CE4-B293-A1BFAFDD2DC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2112B93-4728-4CE4-B293-A1BFAFDD2DC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2112B93-4728-4CE4-B293-A1BFAFDD2DC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using DataDomain.Order;
+﻿using Common;
+using DataDomain.Interfaces.Domain;
 using EFDeepQueryDynamicLinq;
 
 namespace DeepQueryUnitTestDynamicLinq.TestData;

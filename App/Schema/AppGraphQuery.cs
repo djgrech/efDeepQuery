@@ -9,7 +9,7 @@ namespace GraphQLSample.Schema;
 
 public class AppGraphQuery : ObjectGraphType
 {
-    public AppGraphQuery(IDataService dataService)
+    public AppGraphQuery(IServiceProvider serviceProvider)
     {
         Field<HelloWorldType, HelloWorld>("hello")
             .Argument<HelloInputType>("input")
@@ -25,6 +25,8 @@ public class AppGraphQuery : ObjectGraphType
             {
                 var input = ctx.GetArgument<FilterInput>("input");
 
+                var dataService = serviceProvider.GetRequiredService<IDataService<OrderResponse>>();
+
                 var result = await dataService.Get(new Request()
                 {
                     Filter = input.Filter,
@@ -33,5 +35,22 @@ public class AppGraphQuery : ObjectGraphType
 
                 return result;
             });
+
+        Field<ListGraphType<CustomerGraphType>, List<CustomerResponse>>("customers")
+            .Argument<FilterInputType>("input")
+            .ResolveAsync(async ctx =>
+            {
+                var input = ctx.GetArgument<FilterInput>("input");
+
+                var dataService = serviceProvider.GetRequiredService<IDataService<CustomerResponse>>();
+                var result = await dataService.Get(new Request()
+                {
+                    Filter = input.Filter,
+                    Sort = input.Sort
+                });
+
+                return result;
+            });
+
     }
 }

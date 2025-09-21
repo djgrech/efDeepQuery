@@ -3,6 +3,8 @@ using EFDeepQueryDynamicLinq;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using DataService;
+using DataDomain.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +25,11 @@ var connectionString = builder.Configuration.GetConnectionString("default");
 builder.Services.AddDbContext<ApplicationContext>(c => c.UseSqlServer(connectionString));
 //builder.Services.AddDbContext<ApplicationContext>(c => c.UseSqlServer("Server=.\\SQLExpress;Database=blogDb;Trusted_Connection=True;TrustServerCertificate=True"));
 
-builder.Services.AddSingleton<IEFFilterTranslator, EFFilterTranslator>();
+//builder.Services.AddSingleton<IEFFilterTranslator, EFFilterTranslator>();
+
+builder.Services.AddRepositories();
+builder.Services.AddAutoMapping();
+builder.Services.AddDataServices();
 
 var app = builder.Build();
 

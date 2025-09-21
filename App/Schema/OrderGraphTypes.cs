@@ -1,5 +1,8 @@
-﻿using GraphQL.Types;
+﻿using GraphQL;
+using GraphQL.DataLoader;
+using GraphQL.Types;
 using GraphQLSample.Clients;
+using GraphQLSample.Services;
 
 namespace GraphQLSample.Schema;
 
@@ -14,27 +17,36 @@ public abstract class BaseGraphType<T> : ObjectGraphType<T>
 
 public class OrderGraphType : BaseGraphType<OrderResponse>
 {
-    public OrderGraphType()
+    public OrderGraphType(IServiceProvider serviceProvider)
     {
         Name = "order";
         Field(x => x.OrderDate);
 
-        Field<ProductGraphType, Product>("product").Resolve(x => x.Source.Product);
-        Field<Customer1GraphType, Customer>("customer").Resolve(x => x.Source.Customer);
+        Field<ProductGraphType, ProductResponse>("product").ResolveAsync(ctx => ctx.QueryOneToOne<ProductResponse>(serviceProvider, "productById", ctx.Source.ProductId));
+        Field<CustomerGraphType, CustomerResponse>("customer").ResolveAsync(ctx => ctx.QueryOneToOne<CustomerResponse>(serviceProvider, "customertById", ctx.Source.CustomerId));
     }
 }
 
-public class Customer1GraphType : BaseGraphType<Customer>
+
+public class CustomerGraphType : BaseGraphType<CustomerResponse>
 {
-    public Customer1GraphType()
+    public CustomerGraphType(IServiceProvider serviceProvider)
     {
         Name = "customer";
         Field(x => x.FirstName);
         Field(x => x.LastName);
+        Field<ListGraphType<OrderGraphType>, IEnumerable<OrderResponse>>("orders").ResolveAsync(ctx =>
+        ctx.QueryManyToOne<OrderResponse, IOrdersDataService>(
+            serviceProvider,
+            "orderByCustomerId",
+            ctx.Source.Id,
+            x => x.CustomerId,
+            (service, ids) => service.GetByCustomerIds([.. ids])
+        ));
     }
 }
 
-public class ProductGraphType : BaseGraphType<Product>
+public class ProductGraphType : BaseGraphType<ProductResponse>
 {
     public ProductGraphType()
     {

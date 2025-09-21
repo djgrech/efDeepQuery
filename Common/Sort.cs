@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace EFDeepQueryDynamicLinq;
+namespace Common;
 
 public class SortInput : List<KeyValuePair<string, SortDirection>>
 {
@@ -21,5 +21,5 @@ public enum SortDirection
 public static class SortInputExtensions
 {
     public static SortInput Add<T>(this SortInput sortInput, Expression<Func<T, object>> prop, SortDirection direction = SortDirection.Asc)
-    => sortInput.Add(prop.GetPropertyName(), direction);
+        => sortInput.Add(prop.GetPropertyName(), direction);
 }

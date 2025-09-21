@@ -3,8 +3,12 @@ using GraphQL.DataLoader;
 using GraphQL.SystemTextJson;
 using GraphQL.Types;
 using GraphQL.Utilities;
-using Microsoft.AspNetCore.Mvc;
 using GraphQLSample.Requests.GraphQL;
+using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+
+//using GraphQL.NewtonsoftJson;
+
 
 namespace GraphQLSample.Controllers
 {
@@ -46,12 +50,21 @@ namespace GraphQLSample.Controllers
 
             var listener = _services.GetRequiredService<DataLoaderDocumentListener>();
 
+            Dictionary<string, object> variablesDict = new Dictionary<string, object>();
+
+            if (request.Variables.HasValue && request.Variables.Value.ValueKind == JsonValueKind.Object)
+            {
+                variablesDict = (Dictionary<string, object>)ConvertJsonElement(request.Variables.Value);
+            }
+
+
+
             var result = await _documentExecuter.ExecuteAsync(opts =>
             {
                 opts.Schema = _schema;
                 opts.Query = request.Query;
                 opts.OperationName = request.OperationName;
-                opts.Variables = request.Variables?.ToInputs();
+                opts.Variables = variablesDict != null ? new Inputs(variablesDict) : null; //.ToInputs();//  request.Variables?.ToInputs();
                 opts.ThrowOnUnhandledException = false;
                 opts.RequestServices = HttpContext.RequestServices;
                 opts.Listeners.Add(listener);
@@ -75,6 +88,34 @@ namespace GraphQLSample.Controllers
                 ContentType = "application/json",
                 StatusCode = result.Errors?.Count > 0 ? 400 : 200
             };
+        }
+
+        private object ConvertJsonElement(JsonElement element)
+        {
+            switch (element.ValueKind)
+            {
+                case JsonValueKind.Object:
+                    var dict = new Dictionary<string, object>();
+                    foreach (var prop in element.EnumerateObject())
+                        dict[prop.Name] = ConvertJsonElement(prop.Value);
+                    return dict;
+                case JsonValueKind.Array:
+                    var list = new List<object>();
+                    foreach (var item in element.EnumerateArray())
+                        list.Add(ConvertJsonElement(item));
+                    return list;
+                case JsonValueKind.String:
+                    return element.GetString()!;
+                case JsonValueKind.Number:
+                    if (element.TryGetInt32(out int i)) return i;
+                    if (element.TryGetInt64(out long l)) return l;
+                    if (element.TryGetDouble(out double d)) return d;
+                    return element.GetDecimal();
+                case JsonValueKind.True: return true;
+                case JsonValueKind.False: return false;
+                case JsonValueKind.Null: return null!;
+                default: throw new NotSupportedException($"Unsupported JsonValueKind {element.ValueKind}");
+            }
         }
     }
 }

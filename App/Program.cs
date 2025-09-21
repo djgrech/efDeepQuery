@@ -12,9 +12,15 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddAppGraphQL();
-builder.Services.AddSingleton<IDataService, DataService>();
-builder.Services.AddSingleton<IDataHttpClient, DataHttpClient>();
+builder.Services.AddSingleton(typeof(IDataService<>), typeof(DataService<>));
+//builder.Services.AddSingleton(typeof(IDataHttpClient<>), typeof(DataHttpClient<>));
+builder.Services.AddSingleton<IDataHttpClient<OrderResponse>, OrderHttpClient>();
+builder.Services.AddSingleton<IDataHttpClient<CustomerResponse>, CustomerHttpClient>();
+builder.Services.AddSingleton<IDataHttpClient<ProductResponse>, ProductHttpClient>();
 
+
+builder.Services.AddSingleton<IOrderDataHttpClient, OrderHttpClient>();
+builder.Services.AddSingleton<IOrdersDataService, OrdersDataService>();
 var clientUrl = builder.Configuration.GetValue<string>("application:url");
 
 builder.Services.AddHttpClient("efDeepQuery", client =>
