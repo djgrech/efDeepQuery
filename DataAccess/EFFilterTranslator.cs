@@ -40,9 +40,9 @@ public class EFFilterTranslator : IEFFilterTranslator
     {
         var f = new FilterMetaData();
         var queryStr = Build(filterGroup, f);
-
+        /*
         foreach (var entity in f.ProcessedEntities)
-            query = query.Include(entity);
+            query = query.Include(entity);*/
 
         var parsedItems = f.Items.Select(item =>
         {
@@ -50,13 +50,12 @@ public class EFFilterTranslator : IEFFilterTranslator
             {
                 if (jsonElement.ValueKind == JsonValueKind.String)
                 {
-                    var s = jsonElement.GetString(); ;
-                    if (DateTime.TryParse(s, out var date))
-                        return date.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                    var s = jsonElement.GetString();
 
-                    return s;
+                    return DateTime.TryParse(s, out var date)
+                        ? date.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                        : s;
                 }
-
 
                 if (jsonElement.ValueKind == JsonValueKind.Number && jsonElement.TryGetInt32(out var intVal))
                     return intVal;
