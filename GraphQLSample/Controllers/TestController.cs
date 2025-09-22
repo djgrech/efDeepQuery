@@ -9,7 +9,7 @@ public class TestController : ControllerBase
     [HttpGet]
     public ActionResult Get()
     {
-        return Ok("hello world - gql - 1.0.0");
+        return Ok("hello world - gql - 1.0.1");
     }
 }
 
