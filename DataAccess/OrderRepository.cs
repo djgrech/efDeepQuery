@@ -1,12 +1,9 @@
 ﻿using DataDomain.Interfaces;
 using DataDomain.Interfaces.Domain;
-using EFDeepQueryDynamicLinq;
 
 namespace DataAccess;
 
-public class OrderRepository : Repository<OrderEntity>, IOrderRepository
+public class OrderRepository(ApplicationContext context, IEFFilterTranslator eFFilterTranslator) 
+    : Repository<OrderEntity>(context, eFFilterTranslator), IOrderRepository
 {
-    public OrderRepository(ApplicationContext context, IEFFilterTranslator eFFilterTranslator) : base(context, eFFilterTranslator)
-    {
-    }
 }

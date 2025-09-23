@@ -20,34 +20,22 @@ public abstract class Repository<T> : IRepository<T> where T : class, IEntity
     }
 
     public async Task<T?> GetByIdAsync(object id)
-    {
-        return await _dbSet.FindAsync(id);
-    }
+        => await _dbSet.FindAsync(id);
 
     public async Task<IEnumerable<T>> GetAllAsync()
-    {
-        return await _dbSet.ToListAsync();
-    }
+        => await _dbSet.ToListAsync();
 
     public async Task AddAsync(T entity)
-    {
-        await _dbSet.AddAsync(entity);
-    }
+        => await _dbSet.AddAsync(entity);
 
     public void Update(T entity)
-    {
-        _dbSet.Update(entity);
-    }
+        => _dbSet.Update(entity);
 
     public void Delete(T entity)
-    {
-        _dbSet.Remove(entity);
-    }
+        => _dbSet.Remove(entity);
 
     public async Task SaveAsync()
-    {
-        await _context.SaveChangesAsync();
-    }
+        => await _context.SaveChangesAsync();
 
     public Task<List<T>> GetFilteredData(FilterGroup filterGroup, SortInput? sortInput = null)
     {
@@ -56,7 +44,5 @@ public abstract class Repository<T> : IRepository<T> where T : class, IEntity
     }
 
     public Task<List<T>> Find(Expression<Func<T, bool>> predicate)
-    {
-        return _dbSet.Where(predicate).ToListAsync();
-    }
+        => _dbSet.Where(predicate).ToListAsync();
 }

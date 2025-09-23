@@ -2,7 +2,6 @@
 using DataDomain.Interfaces;
 using DataService.DTOs;
 using DataService.Services;
-using EFDeepQueryDynamicLinq;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DataService;

@@ -2,7 +2,6 @@ using Common;
 using DataAccess;
 using DataDomain.Interfaces.Domain;
 using DeepQueryUnitTestDynamicLinq.TestData;
-using EFDeepQueryDynamicLinq;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 

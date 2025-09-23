@@ -3,9 +3,7 @@ using DataDomain.Interfaces.Domain;
 
 namespace DataAccess;
 
-public class CustomerRepository : Repository<CustomerEntity>, ICustomerRepository
+public class CustomerRepository(ApplicationContext context, IEFFilterTranslator filterTranslator)
+    : Repository<CustomerEntity>(context, filterTranslator), ICustomerRepository
 {
-    public CustomerRepository(ApplicationContext context, IEFFilterTranslator filterTranslator) : base(context, filterTranslator)
-    {
-    }
 }

@@ -1,11 +1,10 @@
 ﻿using Common;
 using DataDomain.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Text.Json;
 
-namespace EFDeepQueryDynamicLinq;
+namespace DataAccess;
 
 public class EFFilterTranslator : IEFFilterTranslator
 {
