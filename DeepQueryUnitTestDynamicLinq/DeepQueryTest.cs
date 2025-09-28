@@ -1,6 +1,6 @@
 using Common;
 using DataAccess;
-using DataDomain.Interfaces.Domain;
+using DataDomain.OrderDomain;
 using DeepQueryUnitTestDynamicLinq.TestData;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;

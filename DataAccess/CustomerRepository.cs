@@ -1,5 +1,5 @@
 ﻿using DataDomain.Interfaces;
-using DataDomain.Interfaces.Domain;
+using DataDomain.OrderDomain;
 
 namespace DataAccess;
 

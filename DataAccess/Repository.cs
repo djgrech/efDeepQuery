@@ -1,6 +1,5 @@
 ﻿using Common;
 using DataDomain.Interfaces;
-using DataDomain.Interfaces.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -41,6 +40,38 @@ public abstract class Repository<T> : IRepository<T> where T : class, IEntity
     {
         var query = _dbSet.AsQueryable<T>();
         return _filterTranslator.BuildQuery(query, filterGroup, sortInput).ToListAsync();
+    }
+
+    public async Task<PageResult<T>> GetFilteredPagedData(FilterGroup filterGroup, PageInput pageInput, SortInput? sortInput = null)
+    {
+        var query = _dbSet.AsQueryable<T>();
+
+        query = _filterTranslator.BuildQuery(query, filterGroup, sortInput);
+        var totalItems = query.Count();
+
+        if (pageInput != null)
+            query = query
+                .Skip(pageInput.PageNo * pageInput.Page)
+                .Take(pageInput.Page);
+
+        var items = await query.ToListAsync();
+
+        return new PageResult<T>()
+        {
+            Items = items,
+            Page = pageInput!.PageNo,
+            Pages = GetNumberOfPages(totalItems, pageInput.PageNo),
+            Total = totalItems
+        };
+    }
+
+    private static int GetNumberOfPages(int totalItems, int pageNo)
+    {
+        int pages = totalItems / pageNo;
+        if ((totalItems % pageNo) != 0)
+            pages++;
+
+        return pages;
     }
 
     public Task<List<T>> Find(Expression<Func<T, bool>> predicate)

@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DataDomain.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
-namespace DataDomain.Interfaces.Domain;
+namespace DataDomain.OrderDomain;
 
 public class CustomerEntity : IEntity
 {

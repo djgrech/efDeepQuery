@@ -1,4 +1,4 @@
-﻿using DataDomain.Interfaces.Domain;
+﻿using DataDomain.OrderDomain;
 
 namespace DataDomain.Interfaces;
 

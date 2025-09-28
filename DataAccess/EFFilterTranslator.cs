@@ -8,7 +8,6 @@ namespace DataAccess;
 
 public class EFFilterTranslator : IEFFilterTranslator
 {
-    private const string And = "AND";
     private const string Or = "OR";
     private const char OpenBrace = '(';
     private const char CloseBrace = ')';
@@ -28,20 +27,11 @@ public class EFFilterTranslator : IEFFilterTranslator
         [SearchOperator.GreaterThan] = ">",
     };
 
-    private readonly Dictionary<LogicalOperator, string> logicalOperatorMap = new()
-    {
-        [LogicalOperator.Or] = Or,
-        [LogicalOperator.And] = And,
-    };
-
     public IQueryable<TEntity> BuildQuery<TEntity>(IQueryable<TEntity> query, FilterGroup filterGroup, SortInput? sortInput = null)
             where TEntity : class
     {
         var f = new FilterMetaData();
         var queryStr = Build(filterGroup, f);
-        /*
-        foreach (var entity in f.ProcessedEntities)
-            query = query.Include(entity);*/
 
         var parsedItems = f.Items.Select(item =>
         {
@@ -80,7 +70,6 @@ public class EFFilterTranslator : IEFFilterTranslator
         return query;
     }
 
-
     private string Build(FilterGroup filterGroup, FilterMetaData filterMetaData, LogicalOperator? parentOperator = null)
     {
         var parts = new List<string>();
@@ -112,14 +101,6 @@ public class EFFilterTranslator : IEFFilterTranslator
 
         if (items.IsNullOrEmpty())
             return string.Empty;
-
-        var lastIndex = field.LastIndexOf('.');
-
-        if (lastIndex != -1)
-        {
-            var entity = field[..lastIndex];
-            metaData.ProcessedEntities.Add(entity);
-        }
 
         var index = metaData.Index;
 
@@ -172,7 +153,6 @@ public class EFFilterTranslator : IEFFilterTranslator
 
 internal record FilterMetaData
 {
-    public HashSet<string> ProcessedEntities { get; set; } = [];
     public List<object> Items { get; set; } = [];
     public int Index { get; set; }
 }

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Common;
 using DataDomain.Interfaces;
-using DataDomain.Interfaces.Domain;
 
 namespace DataService.Services;
 

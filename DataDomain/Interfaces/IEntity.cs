@@ -1,4 +1,4 @@
-﻿namespace DataDomain.Interfaces.Domain;
+﻿namespace DataDomain.Interfaces;
 
 public interface IEntity
 {

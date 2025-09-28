@@ -1,5 +1,4 @@
 ﻿using Common;
-using DataDomain.Interfaces.Domain;
 using System.Linq.Expressions;
 
 namespace DataDomain.Interfaces;
@@ -14,4 +13,5 @@ public interface IRepository<T> where T : class, IEntity
     void Delete(T entity);
     Task SaveAsync();
     Task<List<T>> GetFilteredData(FilterGroup filterGroup, SortInput? sortInput = null);
+    Task<PageResult<T>> GetFilteredPagedData(FilterGroup filterGroup, PageInput pageInput, SortInput? sortInput = null);
 }

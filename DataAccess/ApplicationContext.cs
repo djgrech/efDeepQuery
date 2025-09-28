@@ -1,5 +1,5 @@
 ﻿using DataDomain;
-using DataDomain.Interfaces.Domain;
+using DataDomain.OrderDomain;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess;

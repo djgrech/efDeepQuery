@@ -1,4 +1,6 @@
-﻿namespace DataDomain.Interfaces.Domain;
+﻿using DataDomain.Interfaces;
+
+namespace DataDomain.OrderDomain;
 
 public class OrderEntity : IEntity
 {
