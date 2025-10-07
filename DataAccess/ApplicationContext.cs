@@ -19,7 +19,7 @@ public class ApplicationContext : DbContext
         {
             optionsBuilder
                 //.UseInMemoryDatabase("testDatabase")
-                .UseSqlServer("Server=.\\SQLExpress;Database=blogDb;Trusted_Connection=True;TrustServerCertificate=True")
+                .UseSqlServer("Server=.\\SQLExpress;Database=orders;Trusted_Connection=True;TrustServerCertificate=True")
                 .UseLazyLoadingProxies() // may impact performance
                 ;
         }
