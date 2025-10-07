@@ -1,6 +1,6 @@
 ﻿using DataDomain.Interfaces;
 
-namespace DataDomain.OrderDomain;
+namespace DataDomain;
 
 public class OrderEntity : IEntity
 {

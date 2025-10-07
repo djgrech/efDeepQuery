@@ -1,5 +1,3 @@
-﻿using DataDomain.OrderDomain;
-
-namespace DataDomain.Interfaces;
+﻿namespace DataDomain.Interfaces;
 
 public interface ICustomerRepository : IRepository<CustomerEntity>;

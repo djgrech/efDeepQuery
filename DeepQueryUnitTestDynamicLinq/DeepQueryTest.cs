@@ -1,6 +1,6 @@
 using Common;
 using DataAccess;
-using DataDomain.OrderDomain;
+using DataDomain;
 using DeepQueryUnitTestDynamicLinq.TestData;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
@@ -41,7 +41,7 @@ public class DeepQueryTest
             result.Should().SatisfyRespectively(GetCustomerAsseration(expectedData));
     }
 
-    [Theory, ClassData(typeof(ProductTestData1))]
+    [Theory, ClassData(typeof(ProductTestData))]
     public void Test_Query_By_Product(FilterGroup filterInput, SortInput? sortInput, List<ExpectedData> expectedData)
     {
         var filterTranslator = new EFFilterTranslator();

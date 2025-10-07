@@ -1,11 +1,11 @@
 ﻿using Common;
-using DataDomain.OrderDomain;
+using DataDomain;
 
 namespace DeepQueryUnitTestDynamicLinq.TestData;
 
-public class ProductTestData1 : TheoryData<FilterGroup, SortInput?, List<ExpectedData>>
+public class ProductTestData : TheoryData<FilterGroup, SortInput?, List<ExpectedData>>
 {
-    public ProductTestData1()
+    public ProductTestData()
     {
         Add(new FilterGroup
         {

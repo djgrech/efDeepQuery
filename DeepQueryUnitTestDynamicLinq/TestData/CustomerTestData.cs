@@ -1,6 +1,5 @@
 ﻿using Common;
-using DataDomain.Interfaces.Domain;
-using DataDomain.OrderDomain;
+using DataDomain;
 
 namespace DeepQueryUnitTestDynamicLinq.TestData;
 

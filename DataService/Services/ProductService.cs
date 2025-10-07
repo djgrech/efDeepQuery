@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using DataDomain;
 using DataDomain.Interfaces;
-using DataDomain.OrderDomain;
 using DataService.DTOs;
 
 namespace DataService.Services;

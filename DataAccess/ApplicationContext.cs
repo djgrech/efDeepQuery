@@ -1,5 +1,4 @@
 ﻿using DataDomain;
-using DataDomain.OrderDomain;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess;
@@ -28,32 +27,6 @@ public class ApplicationContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Blog>(b =>
-        {
-            b.HasData(DataSeeding.Blogs);
-        });
-
-        modelBuilder.Entity<Post>(b =>
-        {
-            b.HasData(DataSeeding.Posts);
-        });
-
-        modelBuilder.Entity<User>(b =>
-        {
-            b.HasData(DataSeeding.Users);
-        });
-
-        modelBuilder.Entity<Brand>(b =>
-        {
-            b.HasData(DataSeeding.Brands);
-        });
-
-        modelBuilder.Entity<Organization>(b =>
-        {
-            b.HasData(DataSeeding.Organizations);
-        });
-
-
         // product
 
         modelBuilder.Entity<ProductEntity>(b =>
@@ -82,12 +55,6 @@ public class ApplicationContext : DbContext
             .WithOne(o => o.Customer)
             .HasForeignKey(o => o.CustomerId);
     }
-
-    public DbSet<Blog> Blogs { get; set; }
-    public DbSet<Post> Posts { get; set; }
-    public DbSet<User> Users { get; set; }
-    public DbSet<Brand> Brands { get; set; }
-    public DbSet<Organization> Organizations { get; set; }
 
     public virtual DbSet<ProductEntity> Products { get; set; }
     public virtual DbSet<OrderEntity> Orders { get; set; }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DataDomain.OrderDomain;
+using DataDomain;
 
 namespace DataService.DTOs;
 

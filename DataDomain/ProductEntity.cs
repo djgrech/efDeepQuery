@@ -1,15 +1,12 @@
 ﻿using DataDomain.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
-namespace DataDomain.OrderDomain;
+namespace DataDomain;
 
-public class CustomerEntity : IEntity
+public class ProductEntity : IEntity
 {
     public int Id { get; set; }
     [StringLength(50)]
-    public string FirstName { get; set; }
-    [StringLength(50)]
-    public string LastName { get; set; }
-
+    public string Name { get; set; }
     public virtual ICollection<OrderEntity> Orders { get; set; }
 }
