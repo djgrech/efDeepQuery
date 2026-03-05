@@ -1,0 +1,44 @@
+version: '3.4'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.0
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
+    networks:
+      - appnet
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.16.0
+    ports:
+      - "5601:5601"
+    links:
+      - elasticsearch
+    depends_on:
+      - elasticsearch
+    networks:
+      - appnet
+
+  apm-server:
+    image: docker.elastic.co/apm/apm-server:7.16.0
+    ports:
+      - "8200:8200"
+    networks:
+      - appnet
+    volumes:
+      - ./.apm-server.yml:/usr/share/apm-server/apm-server.yml
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch
+      - kibana
+    user: root
+    command: >
+      sh -c "chmod go-w /usr/share/apm-server/apm-server.yml &&
+            /usr/share/apm-server/apm-server"       
+
+networks:
+  appnet:
